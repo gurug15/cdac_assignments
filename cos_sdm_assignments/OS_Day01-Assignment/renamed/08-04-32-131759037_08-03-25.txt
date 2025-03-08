@@ -1,0 +1,5 @@
+101 Guru 87 98 36
+102 Mahesh 98 97 100
+103 Aditya 34 21 34
+104 Kareen 65 25 98
+105 Priyanka 87 98 23
