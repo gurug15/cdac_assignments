@@ -8,7 +8,7 @@ int main(){
     //c1.Accept();
     c1.Display();
     
-    Complex  c3 = c1 + c2 - c4 + c5;
+    Complex  c3 = c1 + c2 ;
     c3.Display();
     return 0;
 }
