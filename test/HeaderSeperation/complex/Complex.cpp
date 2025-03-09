@@ -38,3 +38,8 @@ Complex Complex::operator-(const Complex temp) const
 {
     return Complex(this->real - temp.real, this->img - temp.img);
 }
+
+Complex Complex::operator*(const Complex temp) const
+{
+    return Complex(this->real*temp.real,this->img*temp.img);
+}

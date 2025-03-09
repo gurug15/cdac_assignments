@@ -11,5 +11,6 @@ class Complex
       Complex Add(const Complex temp) const;
       Complex operator+(const Complex temp) const;
       Complex operator-(const Complex temp) const;
+      Complex operator*(const Complex temp) const;
 
 };

@@ -10,5 +10,7 @@ int main(){
     
     Complex  c3 = c1 + c2 ;
     c3.Display();
+    Complex mult = c3*c4;
+    mult.Display();
     return 0;
 }
