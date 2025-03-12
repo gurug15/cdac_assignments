@@ -10,6 +10,7 @@ class Employee
 		double salary;
 	public:
 		Employee();
+		Employee(string eid,string name,double salary);
 		virtual void Accept();
 		virtual void Display() const;
 		double GetSalary();
@@ -22,6 +23,7 @@ class PermenentEmp: public Employee
 		double ta, hra;
 	public:
 		PermenentEmp();
+		PermenentEmp(double ta,double hra,string eid,string name, double salary);
 		void Accept();
 		void Display() const;
 		void CalcSalary();
@@ -34,6 +36,7 @@ class ContractEmp: public Employee
 		double rate;
 	public:
 		ContractEmp();
+		ContractEmp(int hr,double rate,string eid,string name, double salary);
 		void Accept();
 		void Display() const;
 		void CalcSalary();

@@ -14,6 +14,13 @@ Employee::Employee()//: eid(""), name(""), salary(0)
 	this->salary = 0;
 }
 
+Employee::Employee(string eid,string name,double salary)
+{
+	this->eid = eid;
+	this->name = name;
+	this->salary = salary;
+}
+
 void Employee::Accept()
 {
 	cout<<"Enter EmployeeId: ";
@@ -38,6 +45,11 @@ double Employee::GetSalary()
 
 PermenentEmp::PermenentEmp(): ta(0), hra(0)
 {
+}
+PermenentEmp::PermenentEmp(double ta,double hra,string eid,string name, double salary):Employee(eid,name,salary)
+{
+	this->ta =ta;
+	this->hra = hra;
 }
 
 void PermenentEmp::Accept()
@@ -68,6 +80,11 @@ void PermenentEmp::CalcSalary()
 
 ContractEmp::ContractEmp(): hr(0), rate(0)
 {
+}
+ContractEmp::ContractEmp(int hr,double rate,string eid,string name, double salary):Employee(eid,name,salary)
+{
+	this->hr =hr;
+	this->rate = rate;
 }
 
 void ContractEmp::Accept()
