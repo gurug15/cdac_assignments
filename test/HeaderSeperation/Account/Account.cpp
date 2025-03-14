@@ -42,7 +42,7 @@ using namespace std;
     void Account::SetDepositMoney(int amount)
     {
         if(amount<0){
-            cout<<"Invalid amount";
+            cout<<"Invalid amount"; 
         }else{
             this->balance = this->balance + amount;
             cout<<"amout deposited Succesfully balance $"<<this->balance<<endl;
