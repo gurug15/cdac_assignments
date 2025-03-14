@@ -1,0 +1,12 @@
+BrandName: samsung
+Model No: s24
+Serial No: 24
+Price: 999999
+BrandName: iphone
+Model No: 15
+Serial No: 1234
+Price: 1000000
+BrandName: iqoo
+Model No: z6
+Serial No: 1254
+Price: 15000

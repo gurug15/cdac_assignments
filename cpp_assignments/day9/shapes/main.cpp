@@ -19,8 +19,12 @@ class Shape
 		{
 			cout<<"Shape Display function"<<endl;
 		}
+		//virtual float CalcArea(){}; makes it a concret class
+		//virtual float CalcArea()=0; makes it a abstract calss bcoz of at least one pure virtual function
+		//virtual float CalcArea(); will compile but will give linker error like:- undefined reference to `vtable for Shape
+		//if every virtual function is made pure virtual function then the class is called INTERFACE
 		virtual float CalcArea()=0;
-		virtual float CalcPeri()=0;
+		virtual float CalcPeri()=0;;
 };
 class Rect : public Shape
 {
@@ -133,7 +137,7 @@ int main(){
 	
 	Circle c;
 	Shape *s = &c;
-
+    s->Accept();
 	s->Display();
 
 

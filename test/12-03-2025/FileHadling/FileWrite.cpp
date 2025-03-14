@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
     ofstream fout;
-    fout.open("abc.txt");
+    fout.open("abc.txt",ios::app);
    
 // ofstream fout("abc.txt");
 	if(!fout)
@@ -21,8 +21,8 @@ int main()
 	{
 	cout<<"\n Enter string"<<endl;
 	getline(cin,str);
-	fout<<str;
-	cout<<"\n Do u want to continue (y or n)"<<endl;
+	fout<<str<<endl;
+	cerr<<"\n Do u want to continue (y or n)"<<endl;
 	cin>>ch;
 	cin.get();// erase or eat the extra enter 
 	}while(ch !='n');

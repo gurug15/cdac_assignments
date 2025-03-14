@@ -20,7 +20,7 @@ class Tiger : virtual public Animal
 	}
 };
 
-class Lion : virtual  public Animal
+class Lion : public Animal
 {
 	int length;
 	public: 
@@ -37,6 +37,6 @@ class Liger :  public Lion, public Tiger
 int main()
 {
 Liger lg;
-lg.SetWeight(10);
+lg.Lion::SetWeight(10);
 return 0;
 }
