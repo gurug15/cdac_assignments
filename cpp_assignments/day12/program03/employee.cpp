@@ -22,10 +22,11 @@ class Employee
 			cout<<"Enter Employee Details"<<endl;
 			cout<<"Enter Eid: ";
 			cin>>eid;
+			cin.get();
 			cout<<"Enter name: ";
-			cin>>name;
-			cout<<"Enter address: ";
-			cin>>address;
+			getline(cin,name);
+			cout<<"Enter address: ";				
+			getline(cin,address);
 			cout<<"Enter salary: ";
 			cin>>salary;
 		}

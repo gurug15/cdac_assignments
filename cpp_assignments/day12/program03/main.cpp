@@ -48,7 +48,8 @@ int main()
 		cout<<"2 for Displaying all employees"<<endl;
 		cout<<"3 for Searching an employee"<<endl;
 		cout<<"4 for Deleting Employee"<<endl;
-		cout<<"5 to exit menu"<<endl;
+		cout<<"5 to Modify emp data"<<endl;
+		cout<<"6 to exit "<<endl;
 		cout<<"Enter your choice: ";
 		cin>>choice;
 		switch(choice){
@@ -56,10 +57,11 @@ int main()
 						cout<<"Enter Employee Details"<<endl;
 						cout<<"Enter Eid: ";
 						cin>>eid;
+						cin.get();
 						cout<<"Enter name: ";
-						cin>>name;
+						getline(cin,name);
 						cout<<"Enter address: ";
-						cin>>address;
+						getline(cin,address);
 						cout<<"Enter salary: ";
 						cin>>salary;
 						emp.push_back(Employee(eid,name,address,salary));
@@ -109,7 +111,28 @@ int main()
 						cout<<"-------------------------------------\n";
 						break;
 					}
-			case 5:{	
+			case 5: {
+						cout<<"Enter Employee ID: ";
+						cin>>eid;
+						
+						cout<<" EID\t NAME\t ADDRESS\t SALARY\n";
+						try{
+							Employee FoundEmp = findEmp(emp,eid);
+							cout<<"---Previous Details---"<<endl;
+							FoundEmp.Display();
+							cout<<"---Modify the Data---"<<endl;
+							FoundEmp.Accept();
+							cout<<" EID\t NAME\t ADDRESS\t SALARY\n";
+							FoundEmp.Display();
+
+						}catch(runtime_error e){
+							e.what();
+						}
+						cout<<"-------------------------------------\n";
+						break;
+
+					}	
+			case 6:{	
 						cout<<"-----------------END--------------------\n";
 						cout<<"Exiting...";
 						break;
@@ -121,5 +144,5 @@ int main()
 				
 				}
 	
-		}while(choice!=5);
+		}while(choice!=6);
 }
