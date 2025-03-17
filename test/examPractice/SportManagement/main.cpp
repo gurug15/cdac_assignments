@@ -2,7 +2,7 @@
 #include<string>
 #include<vector>
 #include"sports.cpp"
-#include"player.cpp"
+// #include"player.cpp"
 using namespace std;
 
 
@@ -32,7 +32,7 @@ void addNewSport(){
     cout<<"Enter fees: ";
     cin>>fees;
     cout<<"press 1 for indoor game and 2 for outdoor game: ";
-    cin>>type
+    cin>>type;
     cout<<(type==1?"Entee venue type: ":"Enter ground type: ");
     cin.ignore();
     getline(cin,gameType);
@@ -41,17 +41,69 @@ void addNewSport(){
     if(type == 1)
     {
         gsports.push_back(new IndoorGame(gameType,name,fees));
-    }else{
+    }else if(type == 2){
         gsports.push_back(new OutdoorGame(gameType,name,fees));
+    }else{
+        cout<<"invalid input";
     }
     
     cout<<"Sports added succesfully";
 
 }
 
+Player* findPlayerById(int pid,  vector<Player>& players) {
+    for (int i = 0; i < players.size(); i++) {
+        if (players[i].GetId() == pid) {
+            return &players[i];  // Return address of player object
+        }
+    }
+    return nullptr; // Not found
+}
 
+void enrollPlayer(){
+    int pid , sid;
+    cout<<"Enter Player Id: ";
+    cin>>pid;
+    cout<<"Avalable Sports\n";
+    //vector<Sport*>::iterator it = gsports.begin();
+    for(int i=0;i<gsports.size();i++){
+        cout<<i+1<<". ";
+        gsports[i]->display();
+    }
+    cout<<"select Sports No: ";
+    cin>>sid;
+    Player *foundPlr = findPlayerById(pid,players);
 
+    if(foundPlr != nullptr && sid > 0 && sid <= gsports.size())
+    {   
+        foundPlr->enrollSport(gsports[sid-1]);
+        cout<<"Player Enrolled Succesfully";
 
+    }else{
+        cout<<"Invalid Selection / No player Found \n";
+    }
+}
+
+void displayIndoorPlayers() {
+    cout << "\nPlayers Enrolled in Indoor Games:\n";
+    for (const auto& player : players)
+        if (player.playsIndoor())
+            player.display();
+}
+
+void displayOutdoorPlayers() {
+    cout << "\nPlayers Enrolled in Outdoor Games:\n";
+    for (const auto& player : players)
+        if (player.playsOutdoor())
+            player.display();
+}
+
+void displayAllPlayers(){
+    vector<Player>::iterator it = players.begin();
+    for(it;it!=players.end();it++){
+        it->display();
+    }
+}
 
 
 void mainMenu()

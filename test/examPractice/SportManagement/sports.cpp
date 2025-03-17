@@ -1,4 +1,7 @@
+
+
 #include<iostream>
+#include<vector>
 #include<string>
 using namespace std;
 
@@ -18,7 +21,7 @@ class Sport
 		}
 		virtual void display() const
 		{
-			cout<<"Sport: "<<name<<", Fees: "<<fees<<endl;
+			cout<<"Sport: "<<name<<", Fees: "<<fees<<", Is Indoor: "<<isIndoor<<endl;
 		}
 		virtual ~Sport(){}
 };
@@ -51,5 +54,45 @@ class OutdoorGame: public Sport
 			cout<<"Outdoor Game ->";
 			Sport::display();
 			cout<<"Ground: "<<groundType<<endl;
+		}
+};
+
+class Player
+{
+	private:
+		int id;
+		string player_name;
+		vector<Sport*> sports;
+	public:
+		Player(): id(0), player_name("") {}
+		Player(int id, string pName): id(id), player_name(pName) {}
+		void display() const
+		{
+			cout<<"--------------------------\n";
+			cout<<"Player Id: "<<id<<", Name: "<<player_name<<endl;
+			cout<<"Registerd Sports"<<endl;
+			for (const auto& sport : sports) {
+				sport->display();
+			}
+			cout<<"--------------------------\n";
+		}
+		void enrollSport(Sport* sport) {
+			sports.push_back(sport);
+		}
+
+		bool playsIndoor() const {
+			for (const auto& sport : sports)
+				if (sport->isIndoorGame()) return true;
+			return false;
+		}
+	
+		bool playsOutdoor() const {
+			for (const auto& sport : sports)
+				if (sport->isIndoorGame()) return true;
+			return false;
+		}
+
+		int GetId(){
+			return id;
 		}
 };
