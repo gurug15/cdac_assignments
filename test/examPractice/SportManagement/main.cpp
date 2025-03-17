@@ -105,6 +105,14 @@ void displayAllPlayers(){
     }
 }
 
+void clearSports()
+{
+    for (int i = 0; i < gsports.size(); i++) {
+        delete gsports[i];  // Free memory
+    }
+    gsports.clear();
+}
+
 
 void mainMenu()
 {
@@ -136,5 +144,6 @@ void mainMenu()
 
 int main(){
     mainMenu();
+    clearSports();
     return 0;
 }

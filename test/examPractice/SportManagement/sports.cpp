@@ -71,8 +71,13 @@ class Player
 			cout<<"--------------------------\n";
 			cout<<"Player Id: "<<id<<", Name: "<<player_name<<endl;
 			cout<<"Registerd Sports"<<endl;
-			for (const auto& sport : sports) {
-				sport->display();
+			// for (const auto &sport : sports) {  
+			// 	sport->display();
+			// }
+			//similar to 
+			vector<Sport*>::const_iterator it = sports.begin();
+			for(;it!=sports.end();it++){
+			 (*it)->display();
 			}
 			cout<<"--------------------------\n";
 		}
