@@ -1,3 +1,5 @@
+#ifndef Player
+#define Player
 #include<iostream>
 #include<vector>
 #include"sports.cpp"
@@ -22,4 +24,4 @@ class Player
 			// for(auto &sports : )
 		}
 };
-
+#endif
