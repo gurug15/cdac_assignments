@@ -12,34 +12,6 @@ Array::Array(int size)
 }
 
 
-
-
-
-
-
-///its a copy ctor which is used to create a copy of an array object
-/// where we are going to implement DEEP CPOY and SHALLOW COPY
-/*Array::Array(const Array &A)            
-{    //Coping A content  to this/invoking object A-------->Invoking Obj
-    this->size = A.size;
-    // this->arr = A.arr; //will create shallow copy whtch means it will copy the address then both opint to same array result in dangling pointer
-    this->arr = new int[this->size];
-
-    for(int i=0;i<this->size;i++){
-        this->arr[i] = A.arr[i];
-    }
-}
-*/
-
-
-
-
-
-
-
-
-
-
 void Array::Accept()
 {
     for(int i=0;i<this->size;i++){
@@ -148,3 +120,17 @@ Array::~Array()
 {
     delete[] arr;
 }
+
+///its a copy ctor which is used to create a copy of an array object
+/// where we are going to implement DEEP CPOY and SHALLOW COPY
+/*Array::Array(const Array &A)            
+{    //Coping A content  to this/invoking object A-------->Invoking Obj
+    this->size = A.size;
+    // this->arr = A.arr; //will create shallow copy whtch means it will copy the address then both opint to same array result in dangling pointer
+    this->arr = new int[this->size];
+
+    for(int i=0;i<this->size;i++){
+        this->arr[i] = A.arr[i];
+    }
+}
+*/

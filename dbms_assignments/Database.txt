@@ -1,0 +1,348 @@
+Q1. create table vehicle
+     ( vid int,
+     vname varchar(20),
+     price int,
+     discount int,
+     mileage int,
+     details varchar(70));
+
+
+
+insert into vehicle
+    -> values(1,'activa',80000,10,35,'Two wheeler. Sturdy .Mileage 30 km'),
+    -> (2,'santro',95000,20,20,'Product of Hyundai.'),
+    -> (3,'yamaha',160000,5,70,'Sturdy and good Mileage'),
+    -> (4,'i10',300000,8,18,'Good Small Car'),
+    -> (5,'WagonR',250000,10,25,'Good Mileage Car'),
+    -> (6,'Hero Splendor',75000,9,65,'Best Bike'),
+    -> (7,'Royal Enfield',190000,5,40,'A Royal Bike');
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from vehicle;
++------+---------------+--------+----------+---------+------------------------------------+
+| vid  | vname         | price  | discount | mileage | details                            |
++------+---------------+--------+----------+---------+------------------------------------+
+|    1 | activa        |  80000 |       10 |      35 | Two wheeler. Sturdy .Mileage 30 km |
+|    2 | santro        |  95000 |       20 |      20 | Product of Hyundai.                |
+|    3 | yamaha        | 160000 |        5 |      70 | Sturdy and good Mileage            |
+|    4 | i10           | 300000 |        8 |      18 | Good Small Car                     |
+|    5 | WagonR        | 250000 |       10 |      25 | Good Mileage Car                   |
+|    6 | Hero Splendor |  75000 |        9 |      65 | Best Bike                          |
+|    7 | Royal Enfield | 190000 |        5 |      40 | A Royal Bike                       |
++------+---------------+--------+----------+---------+------------------------------------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+### select * from vehicle
+    -> where vname='Royal Enfield';
++------+---------------+--------+----------+---------+--------------+
+| vid  | vname         | price  | discount | mileage | details      |
++------+---------------+--------+----------+---------+--------------+
+|    7 | Royal Enfield | 190000 |        5 |      40 | A Royal Bike |
++------+---------------+--------+----------+---------+--------------+
+1 row in set (0.00 sec)
+
+
+### select * from vehicle
+    -> where mileage >= 40;
++------+---------------+--------+----------+---------+-------------------------+
+| vid  | vname         | price  | discount | mileage | details                 |
++------+---------------+--------+----------+---------+-------------------------+
+|    3 | yamaha        | 160000 |        5 |      70 | Sturdy and good Mileage |
+|    6 | Hero Splendor |  75000 |        9 |      65 | Best Bike               |
+|    7 | Royal Enfield | 190000 |        5 |      40 | A Royal Bike            |
++------+---------------+--------+----------+---------+-------------------------+
+3 rows in set (0.00 sec)
+
+
+### update vehicle
+    -> set price=80000 where price=75000;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from vehicle;
++------+---------------+--------+----------+---------+------------------------------------+
+| vid  | vname         | price  | discount | mileage | details                            |
++------+---------------+--------+----------+---------+------------------------------------+
+|    1 | activa        |  80000 |       10 |      35 | Two wheeler. Sturdy .Mileage 30 km |
+|    2 | santro        |  95000 |       20 |      20 | Product of Hyundai.                |
+|    3 | yamaha        | 160000 |        5 |      70 | Sturdy and good Mileage            |
+|    4 | i10           | 300000 |        8 |      18 | Good Small Car                     |
+|    5 | WagonR        | 250000 |       10 |      25 | Good Mileage Car                   |
+|    6 | Hero Splendor |  80000 |        9 |      65 | Best Bike                          |
+|    7 | Royal Enfield | 190000 |        5 |      40 | A Royal Bike                       |
++------+---------------+--------+----------+---------+------------------------------------+
+7 rows in set (0.00 sec)
+
+
+### select * from vehicle where vname='i10';
++------+-------+--------+----------+---------+----------------+
+| vid  | vname | price  | discount | mileage | details        |
++------+-------+--------+----------+---------+----------------+
+|    4 | i10   | 300000 |        8 |      18 | Good Small Car |
++------+-------+--------+----------+---------+----------------+
+1 row in set (0.00 sec)
+
+### select * from vehicle where price<100000;
++------+---------------+-------+----------+---------+------------------------------------+
+| vid  | vname         | price | discount | mileage | details                            |
++------+---------------+-------+----------+---------+------------------------------------+
+|    1 | activa        | 80000 |       10 |      35 | Two wheeler. Sturdy .Mileage 30 km |
+|    2 | santro        | 95000 |       20 |      20 | Product of Hyundai.                |
+|    6 | Hero Splendor | 80000 |        9 |      65 | Best Bike                          |
++------+---------------+-------+----------+---------+------------------------------------+
+3 rows in set (0.00 sec)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2. create table customer
+    -> ( custid int,
+    -> cname varchar(15),
+    -> location varchar (12));
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+insert into customer
+    -> values(1,'Nilima','pimpri'),
+    -> (2,'Ganesh','Pune'),
+    -> (3,'Kishor','Kothrud'),
+    -> (4,'Priya','Aundh');
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      1 | Nilima | pimpri   |
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      4 | Priya  | Aundh    |
++--------+--------+----------+
+4 rows in set (0.00 sec)
+
+
+
+#### delete from customer
+    -> where location='pimpri';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      4 | Priya  | Aundh    |
++--------+--------+----------+
+3 rows in set (0.00 sec)
+
+
+###  insert into customer
+    -> values(5,'Geeta','pimpri'),
+    -> (6,'Raj','Aundh'),
+    -> (7,'Yash','Aundh');
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      4 | Priya  | Aundh    |
+|      5 | Geeta  | pimpri   |
+|      6 | Raj    | Aundh    |
+|      7 | Yash   | Aundh    |
++--------+--------+----------+
+6 rows in set (0.00 sec)
+
+
+
+### delete from customer
+    -> where location='Aundh' and cname='Priya';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from customer;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      5 | Geeta  | pimpri   |
+|      6 | Raj    | Aundh    |
+|      7 | Yash   | Aundh    |
++--------+--------+----------+
+5 rows in set (0.00 sec)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q3. create table salesman
+    -> (sid int,
+    -> sname varchar(12),
+    -> city varchar(12),
+    -> experience int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into salesman
+    -> values(10,'rajesh','mumbai',5),
+    -> (11,'seema','pune',8),
+    -> (12,'Shailesh','nagpur',7),
+    -> (13,'Rakhi','Pune',2);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from salesman;
++------+----------+--------+------------+
+| sid  | sname    | city   | experience |
++------+----------+--------+------------+
+|   10 | rajesh   | mumbai |          5 |
+|   11 | seema    | pune   |          8 |
+|   12 | Shailesh | nagpur |          7 |
+|   13 | Rakhi    | Pune   |          2 |
++------+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+
+### select sname from salesman
+    -> where city='pune';
++-------+
+| sname |
++-------+
+| seema |
+| Rakhi |
++-------+
+2 rows in set (0.00 sec)
+
+
+
+### select * from salesman where experience>5;
++------+----------+--------+------------+
+| sid  | sname    | city   | experience |
++------+----------+--------+------------+
+|   11 | seema    | pune   |          8 |
+|   12 | Shailesh | nagpur |          7 |
++------+----------+--------+------------+
+2 rows in set (0.00 sec)
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Q4. create table employeee
+    -> (eno int,
+    -> ename varchar(15),
+    -> basic int,
+    -> incentives int);
+Query OK, 0 rows affected (0.01 sec)
+
+
+insert into employeee
+    -> values(1,'rajesh',20000,1500),
+    -> (2,'sarita',25000,1000),
+    -> (3,'meera',15000,3000),
+    -> (4,'jitesh',30000,500),
+    -> (5,'ramesh',12000,3000);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from employeee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | rajesh | 20000 |       1500 |
+|    2 | sarita | 25000 |       1000 |
+|    3 | meera  | 15000 |       3000 |
+|    4 | jitesh | 30000 |        500 |
+|    5 | ramesh | 12000 |       3000 |
++------+--------+-------+------------+
+5 rows in set (0.00 sec)
+
+
+###  select * from employeee
+    -> where basic>15000;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | rajesh | 20000 |       1500 |
+|    2 | sarita | 25000 |       1000 |
+|    4 | jitesh | 30000 |        500 |
++------+--------+-------+------------+
+3 rows in set (0.00 sec)
+
+
+### update employeee
+    -> set incentives=1000 where ename='jitesh';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employeee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | rajesh | 20000 |       1500 |
+|    2 | sarita | 25000 |       1000 |
+|    3 | meera  | 15000 |       3000 |
+|    4 | jitesh | 30000 |       1000 |
+|    5 | ramesh | 12000 |       3000 |
++------+--------+-------+------------+
+5 rows in set (0.00 sec)
+
+### delete from employeee where ename ='meera';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employeee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | rajesh | 20000 |       1500 |
+|    2 | sarita | 25000 |       1000 |
+|    4 | jitesh | 30000 |       1000 |
+|    5 | ramesh | 12000 |       3000 |
++------+--------+-------+------------+
+4 rows in set (0.00 sec)
+
+###  update employeee set basic=60000 where ename='ramesh';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employeee;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | rajesh | 20000 |       1500 |
+|    2 | sarita | 25000 |       1000 |
+|    4 | jitesh | 30000 |       1000 |
+|    5 | ramesh | 60000 |       3000 |
++------+--------+-------+------------+
+4 rows in set (0.00 sec)
+
+### select * from employeee where basic>15000 and incentives>1200;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | rajesh | 20000 |       1500 |
+|    5 | ramesh | 60000 |       3000 |
++------+--------+-------+------------+
+2 rows in set (0.00 sec)
+
+###  select * from employeee where incentives>1200;
++------+--------+-------+------------+
+| eno  | ename  | basic | incentives |
++------+--------+-------+------------+
+|    1 | rajesh | 20000 |       1500 |
+|    5 | ramesh | 60000 |       3000 |
++------+--------+-------+------------+
+2 rows in set (0.00 sec)
+
+
+
+

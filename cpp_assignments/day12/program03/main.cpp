@@ -140,6 +140,7 @@ int main()
 			defalut:{
 
 						cout<<"yed zavya";
+						return 0;
 					}
 				
 				}

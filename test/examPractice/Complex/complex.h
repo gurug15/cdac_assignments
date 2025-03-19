@@ -15,7 +15,7 @@ class Complex
         friend Complex operator+(Complex &c,int);
         friend Complex operator+(int,Complex &c);
         friend ostream& operator<<(std::ostream &out, const Complex &c);
-        istream& operator>>(istream &in, Complex &c);
+        friend istream& operator>>(istream &in, Complex &c);
 
 };
 #endif
