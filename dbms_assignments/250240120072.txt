@@ -1,0 +1,268 @@
+Assignment-6
+--------------------
+1. Display all empno,ename,deptno,sal,avg(sal),min(sal), max(sal).
+
+
+mysql> select empno,ename,deptno,sal,avg(sal) over(),min(sal) over(),max(sal) over() from emp;
++-------+--------+--------+---------+-----------------+-----------------+-----------------+
+| empno | ename  | deptno | sal     | avg(sal) over() | min(sal) over() | max(sal) over() |
++-------+--------+--------+---------+-----------------+-----------------+-----------------+
+|  7369 | SMITH  |     20 |  800.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7499 | ALLEN  |     30 | 1600.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7521 | WARD   |     30 | 1250.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7566 | JONES  |     20 | 2975.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7654 | MARTIN |     30 | 1250.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7698 | BLAKE  |     30 | 2850.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7782 | CLARK  |     10 | 2450.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7788 | SCOTT  |     20 | 3000.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7839 | KING   |     10 | 5000.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7844 | TURNER |     30 | 1500.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7876 | ADAMS  |     20 | 1100.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7900 | JAMES  |     30 |  950.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7902 | FORD   |     20 | 3000.00 |     2064.118125 |          800.00 |         5000.00 |
+|  7934 | MILLER |     10 | 1300.00 |     2064.118125 |          800.00 |         5000.00 |
+|   111 | Amit   |   NULL | 2000.89 |     2064.118125 |          800.00 |         5000.00 |
+|  2222 | Smita  |     10 | 2000.00 |     2064.118125 |          800.00 |         5000.00 |
++-------+--------+--------+---------+-----------------+-----------------+-----------------+
+16 rows in set (0.00 sec)
+
+2. Write a query to display maximum salary, minimum salary and average sal along with emp name and deptno for all departments.
+
+
+ select empno,ename,deptno,sal,avg(sal) over(partition by deptno)"AVG",min(sal) over(partition by deptno)"MIN",max(sal) over(partition by deptno)"MAX" from emp;
++-------+--------+--------+---------+-------------+---------+---------+
+| empno | ename  | deptno | sal     | AVG         | MIN     | MAX     |
++-------+--------+--------+---------+-------------+---------+---------+
+|   111 | Amit   |   NULL | 2000.89 | 2000.890000 | 2000.89 | 2000.89 |
+|  7782 | CLARK  |     10 | 2450.00 | 2687.500000 | 1300.00 | 5000.00 |
+|  7839 | KING   |     10 | 5000.00 | 2687.500000 | 1300.00 | 5000.00 |
+|  7934 | MILLER |     10 | 1300.00 | 2687.500000 | 1300.00 | 5000.00 |
+|  2222 | Smita  |     10 | 2000.00 | 2687.500000 | 1300.00 | 5000.00 |
+|  7369 | SMITH  |     20 |  800.00 | 2175.000000 |  800.00 | 3000.00 |
+|  7566 | JONES  |     20 | 2975.00 | 2175.000000 |  800.00 | 3000.00 |
+|  7788 | SCOTT  |     20 | 3000.00 | 2175.000000 |  800.00 | 3000.00 |
+|  7876 | ADAMS  |     20 | 1100.00 | 2175.000000 |  800.00 | 3000.00 |
+|  7902 | FORD   |     20 | 3000.00 | 2175.000000 |  800.00 | 3000.00 |
+|  7499 | ALLEN  |     30 | 1600.00 | 1566.666667 |  950.00 | 2850.00 |
+|  7521 | WARD   |     30 | 1250.00 | 1566.666667 |  950.00 | 2850.00 |
+|  7654 | MARTIN |     30 | 1250.00 | 1566.666667 |  950.00 | 2850.00 |
+|  7698 | BLAKE  |     30 | 2850.00 | 1566.666667 |  950.00 | 2850.00 |
+|  7844 | TURNER |     30 | 1500.00 | 1566.666667 |  950.00 | 2850.00 |
+|  7900 | JAMES  |     30 |  950.00 | 1566.666667 |  950.00 | 2850.00 |
++-------+--------+--------+---------+-------------+---------+---------+
+16 rows in set (0.00 sec)
+
+
+
+3. Find sum of salary for all employees whose sal > 1000. Query should display ename,sal,Sum of salary, should be displayed according to the job.
+
+ select ename,job,sal,sum(sal) over(partition by job)"SUM OF SAL" from emp where sal>1000;
++--------+-----------+---------+------------+
+| ename  | job       | sal     | SUM OF SAL |
++--------+-----------+---------+------------+
+| Amit   | NULL      | 2000.89 |    4000.89 |
+| Smita  | NULL      | 2000.00 |    4000.89 |
+| SCOTT  | ANALYST   | 3000.00 |    6000.00 |
+| FORD   | ANALYST   | 3000.00 |    6000.00 |
+| ADAMS  | CLERK     | 1100.00 |    2400.00 |
+| MILLER | CLERK     | 1300.00 |    2400.00 |
+| JONES  | MANAGER   | 2975.00 |    8275.00 |
+| BLAKE  | MANAGER   | 2850.00 |    8275.00 |
+| CLARK  | MANAGER   | 2450.00 |    8275.00 |
+| KING   | PRESIDENT | 5000.00 |    5000.00 |
+| ALLEN  | SALESMAN  | 1600.00 |    5600.00 |
+| WARD   | SALESMAN  | 1250.00 |    5600.00 |
+| MARTIN | SALESMAN  | 1250.00 |    5600.00 |
+| TURNER | SALESMAN  | 1500.00 |    5600.00 |
++--------+-----------+---------+------------+
+14 rows in set (0.00 sec)
+
+
+4. Find number of clerks working in each department. Display ename,job and count of that job.
+
+ select ename,job ,count(*) over(partition by deptno)"COUNT CLERK" from emp where job='clerk';
++--------+-------+-------------+
+| ename  | job   | COUNT CLERK |
++--------+-------+-------------+
+| MILLER | CLERK |           1 |
+| SMITH  | CLERK |           2 |
+| ADAMS  | CLERK |           2 |
+| JAMES  | CLERK |           1 |
++--------+-------+-------------+
+4 rows in set (0.00 sec)
+
+
+5. Find how many employees are working under same manager display mgr and the count .
+
+ select mgr, count(*) from emp group by mgr having count(*) >0;
++------+----------+
+| mgr  | count(*) |
++------+----------+
+| 7902 |        1 |
+| 7698 |        5 |
+| 7839 |        3 |
+| 7566 |        2 |
+| NULL |        3 |
+| 7788 |        1 |
+| 7782 |        1 |
++------+----------+
+7 rows in set (0.00 sec)
+
+6. Calculate how many employees earn sal greater than 1500 in each dept. Query should display ename, sal, count of employees earning sal >1500. 
+
+SELECT e.ename, e.sal, COUNT(*) OVER (PARTITION BY e.deptno) AS count_above_1500
+    -> FROM emp e
+    -> WHERE e.sal > 1500;
++-------+---------+------------------+
+| ename | sal     | count_above_1500 |
++-------+---------+------------------+
+| Amit  | 2000.89 |                1 |
+| CLARK | 2450.00 |                3 |
+| KING  | 5000.00 |                3 |
+| Smita | 2000.00 |                3 |
+| JONES | 2975.00 |                3 |
+| SCOTT | 3000.00 |                3 |
+| FORD  | 3000.00 |                3 |
+| ALLEN | 1600.00 |                2 |
+| BLAKE | 2850.00 |                2 |
++-------+---------+------------------+
+9 rows in set (0.00 sec)
+
+7.Calculate the difference between max salary and minimum salary for depatno 20.  Query should display ename,sal, diff between max sal and employee's sal, diff between min sal and max sal of the dept.
+
+
+----------------------------------
+ SELECT e.ename,e.sal,(select max(sal) from emp where deptno =20)-e.sal "DIFFERENCE BETWEEN MAX AND SAL",
+    -> (select max(sal) from emp where deptno=20)-(select min(sal) from emp where deptno=20)"DIFF BETWEEN MIN AN
+D MAX" from emp e where e.deptno=20;
+
+----------------------------------
+
++-------+---------+--------------------------------+--------------------------+
+| ename | sal     | DIFFERENCE BETWEEN MAX AND SAL | DIFF BETWEEN MIN AND MAX |
++-------+---------+--------------------------------+--------------------------+
+| SMITH |  800.00 |                        2200.00 |                  2200.00 |
+| JONES | 2975.00 |                          25.00 |                  2200.00 |
+| SCOTT | 3000.00 |                           0.00 |                  2200.00 |
+| ADAMS | 1100.00 |                        1900.00 |                  2200.00 |
+| FORD  | 3000.00 |                           0.00 |                  2200.00 |
++-------+---------+--------------------------------+--------------------------+
+5 rows in set (0.00 sec)
+
+
+1.faculty(fid(PK),fname,sp.skill1,sp.skill2)      
+CREATE TABLE faculty(fid int primary key, fname varchar (20) not null,  sp_skill1 varchar (30), sp_skill2 varchar(30));
+
+fid   fname    sp_skill1          sp_skill2
+-------------------------------------------------------------
+10    Amol      Database          Java
+11    Asha      Java                   MySQL
+12    Kiran     CPP                    database
+13    Seeta     MySQL             database
+
+ CREATE TABLE faculty(fid int primary key,fname varchar (20) not null,sp_skill1 varchar (30),sp_skill2 var
+char(30));
+Query OK, 0 rows affected (0.02 sec)
+
+
+ insert into faculty
+    -> values(10,'Amol','Database','Java'),(11,'Asha','Java','MySQL'),(12,'Kiran','CPP','Database'),(13,'Seeta','MySQL','database');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty;
++-----+-------+-----------+-----------+
+| fid | fname | sp_skill1 | sp_skill2 |
++-----+-------+-----------+-----------+
+|  10 | Amol  | Database  | Java      |
+|  11 | Asha  | Java      | MySQL     |
+|  12 | Kiran | CPP       | Database  |
+|  13 | Seeta | MySQL     | database  |
++-----+-------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+
+
+2. courses(cid(PK),cname,rid,fid(FK))
+CREATE TABLE Courses
+(cid int primary key,
+cname varchar (15) not null,
+rid int,
+fid int,
+foreign key(rid) references room(rid) on delete set null,
+foreign key(fid) references faculty(fid) on delete set null
+);
+cid	cname	 rid	 fid
+------------------------------------------
+121	DBDA	100	 101
+31	DAC	101	 null
+141	DTISS	null	 null
+151	DOIT	105	 12
+
+3. room(roomid,rname,rloc)  
+CREATE TABLE room
+(rid int primary key,
+rname varchar(15) not null,
+rloc varchar(20)
+);
+rid      rname       rloc 
+-----------------------------
+100   Jasmin        1st floor 
+101    Rose          2nd floor
+105    Lotus         1st floor
+103    Mogra      1st floor
+
+
+1. list all rooms which are allocated or not allocated to any courses.
+ Expected Output
++---------+-------------+----------+------------+
+|  rid      | rname     | cid       | cname   |
++---------+-------------+----------+------------+
+| 100      | Jasmin   |  121      | DBDA   |
+| 101      | Rose      |  131      | DAC      |
+| 103     | Mogra    | NULL    | NULL     |
+| 105     | Lotus       |  151     | DIOT     |
++---------+-------------+----------+------------+
+4 rows in set (0.00 sec)
+
+
+2. list all rooms which are not allocated to any courses.
+
+
+ SELECT room.*
+    -> FROM room
+    -> LEFT JOIN courses ON room.rid = courses.rid
+    -> WHERE courses.rid IS NULL;
++-----+-------+-----------+
+| rid | rname | rloc      |
++-----+-------+-----------+
+| 103 | Mogra | 1st floor |
++-----+-------+-----------+
+1 row in set (0.00 sec)
+
+
+3. display courses and faculty assigned to those courses whose special skill is database.
+Expected Output
+
+
++-------+------------+-------+-----------+--------------+---------------+
+| cid    | cname    | fid   | fname   | sp_skill1   | sp_skill2     |
++-------+-----------+-------+------------+--------------+----------------+
+| 121    | DBDA     |  10   | Amol   | database   |  JAVA         |
+| 151    | DIOT     |  12   | Kiran     | CPP          |  Database     |
++-------+-----------+--------+-----------+-------------+---------------+
+2 rows in set (0.00 sec) 
+
+
+
+SELECT c.cid, c.cname, f.fid, f.fname, f.sp_skill1, f.sp_skill2
+    -> FROM courses AS c
+    -> JOIN faculty AS f ON c.fid = f.fid
+    -> WHERE f.sp_skill1 = 'database' OR f.sp_skill2 = 'database';
++-----+-------+-----+-------+-----------+-----------+
+| cid | cname | fid | fname | sp_skill1 | sp_skill2 |
++-----+-------+-----+-------+-----------+-----------+
+| 121 | DBDA  |  10 | Amol  | Database  | Java      |
+| 151 | DOIT  |  12 | Kiran | CPP       | Database  |
++-----+-------+-----+-------+-----------+-----------+
+2 rows in set (0.00 sec)
