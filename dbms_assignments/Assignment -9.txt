@@ -1,0 +1,375 @@
+﻿1
+Consider following tables
+product(pid,pname,price,qty)
+product_details(pid,amt)
+amt =price * qty
+Write a trigger which will calculate amt every time any update is done in the price of an item. 
+
+
+create table product_details
+( 
+	pdid int primary key auto_increment,
+	pid int,
+	amt float(6,2)
+);
+
+
+delimiter //
+create trigger pd_trigger
+before insert
+on product
+for each row
+begin 
+declare tot int;
+set tot= new.qty * new.price;
+insert into product_details(pid,amt)
+values(new.pid,tot);
+end //
+delimiter ;
+
+
+ysql> select * from product;
++-----+-------------+-------+------+------+------+
+| pid | pname       | price | qty  | cid  | sid  |
++-----+-------------+-------+------+------+------+
+| 111 | pepsi       | 40.00 |   50 |    4 |   11 |
+| 123 | lays        | 30.00 |   30 |    1 |   12 |
+| 124 | dairy milk  | 40.00 |   60 |    2 |   14 |
+| 125 | pringles    | 40.00 |   60 |    1 |   14 |
+| 134 | nachos      | 50.00 |   50 |    1 |   12 |
+| 167 | eraser      | 90.00 |    5 | NULL | NULL |
+| 213 | Sketch Pens | 56.00 |  150 | NULL |   11 |
++-----+-------------+-------+------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from product_details;
+Empty set (0.00 sec)
+
+mysql> select * from product;
++-----+-------------+-------+------+------+------+
+| pid | pname       | price | qty  | cid  | sid  |
++-----+-------------+-------+------+------+------+
+| 111 | pepsi       | 40.00 |   50 |    4 |   11 |
+| 123 | lays        | 30.00 |   30 |    1 |   12 |
+| 124 | dairy milk  | 40.00 |   60 |    2 |   14 |
+| 125 | pringles    | 40.00 |   60 |    1 |   14 |
+| 134 | nachos      | 50.00 |   50 |    1 |   12 |
+| 167 | eraser      | 90.00 |    5 | NULL | NULL |
+| 213 | Sketch Pens | 56.00 |  150 | NULL |   11 |
++-----+-------------+-------+------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> insert into product
+    -> values(222,'any product',300,20,4,11);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from product_details;
++------+------+---------+
+| pdid | pid  | amt     |
++------+------+---------+
+|    1 |  222 | 6000.00 |
++------+------+---------+
+1 row in set (0.00 sec)
+__________________________________________________________________________________________________________________
+2
+Consider following table
+emp_wage(eno,ename,sal,over_time)
+eno : pk auto inc
+Write a trigger which will insert over_time as 400 if value of over_time entered is null.
+
+create table emp_wage
+(
+	eno int primary key auto_increment,
+	ename varchar(15),
+	sal int,
+	over_time int
+);
+
+delimiter //
+drop trigger if exists ovaf_trigger;
+create trigger ovaf_trigger
+after insert
+on emp_wage
+for each row
+begin
+	if ifnull(old.over_time,0)=0
+	then
+		set old.over_time = 400;
+		end if;
+end //
+delimiter ;
+
+mysql> insert into emp_wage(ename,sal)
+    -> values('random',30);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp_wage;
++-----+--------+------+-----------+
+| eno | ename  | sal  | over_time |
++-----+--------+------+-----------+
+|   1 | random |   30 |       400 |
++-----+--------+------+-----------+
+1 row in set (0.00 sec)
+
+
+
+__________________________________________________________________________________________________________________
+
+3
+Consider following table
+	order_master(oid,pname,qty,price)
+	oid : pk auto inc
+	order_log(oid,odate,amt)
+Write a trigger which will create a log of all orders once order is placed.
+
+create table order_master
+(
+	oid int primary key auto_increment,
+	pname varchar(15),
+	qty int,
+	price int
+);
+
+create table order_log
+(
+	oid int,
+	odate date,
+	amt int
+);
+
+
+delimiter //
+drop trigger if exists af_orfer;
+create trigger af_orfer
+after insert
+on order_master
+for each row
+begin
+	declare amt int;
+	set amt = new.qty * new.price;
+	insert into order_log
+	values(new.oid,curdate(),amt);
+end //
+delimiter ;
+
+mysql> drop trigger if exists af_orfer;
+    -> create trigger af_orfer
+    -> after insert
+    -> on order_master
+    -> for each row
+    -> begin
+    -> declare amt int;
+    -> set amt = new.qty * new.price;
+    -> insert into order_log
+    -> values(new.oid,curdate(),amt);
+    -> end //
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> insert into order_master(pname,qty,price)
+    -> values('milky bar',100,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from order_master;
++-----+-----------+------+-------+
+| oid | pname     | qty  | price |
++-----+-----------+------+-------+
+|   1 | milky bar |  100 |    10 |
++-----+-----------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from order_log;
++------+------------+------+
+| oid  | odate      | amt  |
++------+------------+------+
+|    1 | 2025-03-28 | 1000 |
++------+------------+------+
+1 row in set (0.00 sec)
+
+mysql>
+
+
+
+
+__________________________________________________________________________________________________________________
+4
+Consider following table
+	cust_master(cid,cname,accno,city)
+	cust_details(cid,deleted_date)
+Write a trigger which will save the information of deleted customer in cust_details table. 
+
+create table cust_master
+(
+	cid int primary key auto_increment,
+	cname varchar(15),
+	accno int,
+	city varchar(15) default 'PUNE'
+);
+
+create table cust_details
+(
+	cid int,
+	deleted_date date
+);
+
+
+
+delimiter //
+drop trigger if exists bef_cust;
+create trigger bef_cust
+before delete
+on cust_master
+for each row
+begin
+	insert into cust_details
+	values(old.cid,curdate());
+end //
+delimiter ;
+
+
+mysql> insert into cust_master
+    -> values(1,'mahes',212,'fj');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from cust_master;
++-----+-------+-------+------+
+| cid | cname | accno | city |
++-----+-------+-------+------+
+|   1 | mahes |   212 | fj   |
++-----+-------+-------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from cust_details;
+Empty set (0.00 sec)
+
+mysql> select * from cust_details;
+Empty set (0.00 sec)
+
+mysql> delete from cust_master
+    -> ;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from cust_details;
++------+--------------+
+| cid  | deleted_date |
++------+--------------+
+|    1 | 2025-03-28   |
++------+--------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+__________________________________________________________________________________________________________________
+5
+create table med_master
+(mno int primary key auto_increment,
+mname varchar(15),
+stock int
+);
+create table med_order
+(mid int primary key auto_increment,
+mno int,
+qty int);
+Create above tables and write the trigger which will insert data in med_order table if 
+stock drops down below 15.
+Use update after trigger.
+
+
+delimiter //
+drop trigger if exists aft_med;
+create trigger aft_med
+after update
+on med_master
+for each row
+begin
+	if new.stock<15
+	then 
+	 insert into med_order(mno,qty)
+	 values(old.mno,1500);
+	 end if;
+end //
+delimiter ;
+
+insert into med_master(mname,stock)
+values('bitco',200),
+('para',100);
+
+
+mysql> select * from med_master;
++-----+-------+-------+
+| mno | mname | stock |
++-----+-------+-------+
+|   1 | bitco |   200 |
+|   2 | para  |   100 |
++-----+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from med_order;
+Empty set (0.00 sec)
+
+mysql> update med_master
+    -> set stock=14
+    -> where mno=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from med_master;
++-----+-------+-------+
+| mno | mname | stock |
++-----+-------+-------+
+|   1 | bitco |    14 |
+|   2 | para  |   100 |
++-----+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from med_order;
+Empty set (0.00 sec)
+
+mysql> delimiter //
+mysql> drop trigger if exists aft_med;
+    -> create trigger aft_med
+    -> after update
+    -> on med_master
+    -> for each row
+    -> begin
+    -> if new.stock<15
+    -> then
+    ->  insert into med_order(mno,qty)
+    ->  values(old.mno,1500);
+    ->  end if;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select * from med_order;
+Empty set (0.00 sec)
+
+mysql> update med_master
+    -> set stock=10
+    -> where mno=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from med_order;
++-----+------+------+
+| mid | mno  | qty  |
++-----+------+------+
+|   1 |    1 | 1500 |
++-----+------+------+
+1 row in set (0.00 sec)
+
+__________________________________________________________________________________________________________________
+6
+Try all basic commands of mongodb
+	
+
+________________
+
+
+________________
