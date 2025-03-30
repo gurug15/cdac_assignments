@@ -21,7 +21,8 @@ mysql> select last_name, salary from employees where salary>12000;
 
 _________________________________________________________________________________________________________________________________________________________________
 
-2.	Open a new SQL Worksheet. Create a report that displays the last name and department number for employee number 176.
+2.Create a report that displays the last name and department number for employee number 176.
+
 
 
 
@@ -273,42 +274,673 @@ ________________________________________________________________________________
 9.	Create a report to display the last name, salary, and commission for all employees who earn commissions.
  Sort data in descending order of salary and commissions. Use the column’s numeric position in the ORDER BY clause.
 
+select last_name ,salary,commission_pct from employees
+where commission_pct is not null
+order by salary,commission_pct;
+
+mysql> select last_name ,salary,commission_pct from employees
+    -> where commission_pct is not null
+    -> order by salary,commission_pct;
++------------+----------+----------------+
+| last_name  | salary   | commission_pct |
++------------+----------+----------------+
+| Kumar      |  6100.00 |           0.10 |
+| Johnson    |  6200.00 |           0.10 |
+| Banda      |  6200.00 |           0.10 |
+| Ande       |  6400.00 |           0.10 |
+| Lee        |  6800.00 |           0.10 |
+| Grant      |  7000.00 |           0.15 |
+| Tuvault    |  7000.00 |           0.15 |
+| Sewall     |  7000.00 |           0.25 |
+| Marvins    |  7200.00 |           0.10 |
+| Bates      |  7300.00 |           0.15 |
+| Smith      |  7400.00 |           0.15 |
+| Cambrault  |  7500.00 |           0.20 |
+| Doran      |  7500.00 |           0.30 |
+| Olsen      |  8000.00 |           0.20 |
+| Smith      |  8000.00 |           0.30 |
+| Livingston |  8400.00 |           0.20 |
+| Taylor     |  8600.00 |           0.20 |
+| Hutton     |  8800.00 |           0.25 |
+| Hall       |  9000.00 |           0.25 |
+| McEwen     |  9000.00 |           0.35 |
+| Greene     |  9500.00 |           0.15 |
+| Bernstein  |  9500.00 |           0.25 |
+| Sully      |  9500.00 |           0.35 |
+| Fox        |  9600.00 |           0.20 |
+| Bloom      | 10000.00 |           0.20 |
+| Tucker     | 10000.00 |           0.30 |
+| King       | 10000.00 |           0.35 |
+| Zlotkey    | 10500.00 |           0.20 |
+| Vishney    | 10500.00 |           0.25 |
+| Abel       | 11000.00 |           0.30 |
+| Cambrault  | 11000.00 |           0.30 |
+| Ozer       | 11500.00 |           0.25 |
+| Errazuriz  | 12000.00 |           0.30 |
+| Partners   | 13500.00 |           0.30 |
+| Russell    | 14000.00 |           0.40 |
++------------+----------+----------------+
+35 rows in set (0.00 sec)
 
 
 _________________________________________________________________________________________________________________________________________________________________
 10.	Display the last names of all employees where the third letter of the name is “a.”
 
+mysql> select last_name from employees where last_name like '__a%';
++-----------+
+| last_name |
++-----------+
+| Grant     |
+| Grant     |
+| Whalen    |
++-----------+
+3 rows in set (0.00 sec)
+mysql> select last_name from employees where last_name regexp '^..a.*';
++-----------+
+| last_name |
++-----------+
+| Grant     |
+| Grant     |
+| Whalen    |
++-----------+
+3 rows in set (0.00 sec)
 
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 11.	Display the last names of all employees who have both an “a” and an “e” in their last name.
+mysql> select last_name from employees where last_name regexp '^.*a.*$' and last_name regexp '^.*e.*$';
++------------+
+| last_name  |
++------------+
+| De Haan    |
+| Faviet     |
+| Raphaely   |
+| Colmenares |
+| Nayer      |
+| Markle     |
+| Philtanker |
+| Patel      |
+| Davies     |
+| Partners   |
+| Errazuriz  |
+| Sewall     |
+| Ande       |
+| Bates      |
+| Abel       |
+| Fleaur     |
+| Gates      |
+| Whalen     |
+| Hartstein  |
+| Baer       |
++------------+
+20 rows in set (0.01 sec)
+
+mysql> select last_name from employees where last_name like '%a%' and last_name like '%e%';
++------------+
+| last_name  |
++------------+
+| De Haan    |
+| Faviet     |
+| Raphaely   |
+| Colmenares |
+| Nayer      |
+| Markle     |
+| Philtanker |
+| Patel      |
+| Davies     |
+| Partners   |
+| Errazuriz  |
+| Sewall     |
+| Ande       |
+| Bates      |
+| Abel       |
+| Fleaur     |
+| Gates      |
+| Whalen     |
+| Hartstein  |
+| Baer       |
++------------+
+20 rows in set (0.00 sec)
 
 
-12.	Display the last name, job, and salary for all employees whose job is that of a sales representative or a stock clerk, and whose salary is not equal to $2,500, $3,500, or $7,000.
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+12.	Display the last name, job, and salary for all employees whose job is that of a sales representative or a stock clerk,
+ and whose salary is not equal to $2,500, $3,500, or $7,000.
+select e.last_name, j.job_title,e.salary from employees e 
+join jobs j 
+on e.job_id=j.job_id
+where e.salary not in (2500,3500,7000) and  j.job_title in ('sales representative','stock clerk'); 
+##########################################################
+mysql> select e.last_name, j.job_title,e.salary from employees e
+    -> join jobs j
+    -> on e.job_id=j.job_id
+    -> where e.salary not in (2500,3500,7000) and  j.job_title in ('sales representative','stock clerk') ;
++-------------+----------------------+----------+
+| last_name   | job_title            | salary   |
++-------------+----------------------+----------+
+| Tucker      | Sales Representative | 10000.00 |
+| Bernstein   | Sales Representative |  9500.00 |
+| Hall        | Sales Representative |  9000.00 |
+| Olsen       | Sales Representative |  8000.00 |
+| Cambrault   | Sales Representative |  7500.00 |
+| King        | Sales Representative | 10000.00 |
+| Sully       | Sales Representative |  9500.00 |
+| McEwen      | Sales Representative |  9000.00 |
+| Smith       | Sales Representative |  8000.00 |
+| Doran       | Sales Representative |  7500.00 |
+| Vishney     | Sales Representative | 10500.00 |
+| Greene      | Sales Representative |  9500.00 |
+| Marvins     | Sales Representative |  7200.00 |
+| Lee         | Sales Representative |  6800.00 |
+| Ande        | Sales Representative |  6400.00 |
+| Banda       | Sales Representative |  6200.00 |
+| Ozer        | Sales Representative | 11500.00 |
+| Bloom       | Sales Representative | 10000.00 |
+| Fox         | Sales Representative |  9600.00 |
+| Smith       | Sales Representative |  7400.00 |
+| Bates       | Sales Representative |  7300.00 |
+| Kumar       | Sales Representative |  6100.00 |
+| Abel        | Sales Representative | 11000.00 |
+| Hutton      | Sales Representative |  8800.00 |
+| Taylor      | Sales Representative |  8600.00 |
+| Livingston  | Sales Representative |  8400.00 |
+| Johnson     | Sales Representative |  6200.00 |
+| Nayer       | Stock Clerk          |  3200.00 |
+| Mikkilineni | Stock Clerk          |  2700.00 |
+| Landry      | Stock Clerk          |  2400.00 |
+| Markle      | Stock Clerk          |  2200.00 |
+| Bissot      | Stock Clerk          |  3300.00 |
+| Atkinson    | Stock Clerk          |  2800.00 |
+| Olson       | Stock Clerk          |  2100.00 |
+| Mallin      | Stock Clerk          |  3300.00 |
+| Rogers      | Stock Clerk          |  2900.00 |
+| Gee         | Stock Clerk          |  2400.00 |
+| Philtanker  | Stock Clerk          |  2200.00 |
+| Ladwig      | Stock Clerk          |  3600.00 |
+| Stiles      | Stock Clerk          |  3200.00 |
+| Seo         | Stock Clerk          |  2700.00 |
+| Davies      | Stock Clerk          |  3100.00 |
+| Matos       | Stock Clerk          |  2600.00 |
++-------------+----------------------+----------+
 
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 13.	Display the last name, salary, and commission for all employees whose commission amount is 20%. 
+select last_name,salary,commission_pct from employees where ifnull(commission_pct,0)=0.2;
 
-
+mysql> select last_name,salary,commission_pct from employees where ifnull(commission_pct,0)=0.2;
++------------+----------+----------------+
+| last_name  | salary   | commission_pct |
++------------+----------+----------------+
+| Zlotkey    | 10500.00 |           0.20 |
+| Olsen      |  8000.00 |           0.20 |
+| Cambrault  |  7500.00 |           0.20 |
+| Bloom      | 10000.00 |           0.20 |
+| Fox        |  9600.00 |           0.20 |
+| Taylor     |  8600.00 |           0.20 |
+| Livingston |  8400.00 |           0.20 |
++------------+----------+----------------+
+7 rows in set (0.00 sec)
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 ----------------------------------------------- Aggregate Function -------------------------------------
 The HR department needs the following reports:
-14.	Find the highest, lowest, sum, and average salary of all employees. Label the columns Maximum, Minimum, Sum, and Average, respectively. Round your results to the nearest whole number.
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+14.	Find the highest, lowest, sum, and average salary of all employees. 
+Label the columns Maximum, Minimum, Sum, and Average, respectively. Round your results to the nearest whole number.
+
+select round(max(salary)) Maximum,round(min(salary)) Minimum,round(sum(salary)) Sum,round(avg(salary)) Average from employees;
+
+mysql> select round(max(salary)) Maximum,round(min(salary)) Minimum,round(sum(salary)) Sum,round(avg(salary)) Average from employees;
++---------+---------+--------+---------+
+| Maximum | Minimum | Sum    | Average |
++---------+---------+--------+---------+
+|   24000 |    2100 | 691400 |    6462 |
++---------+---------+--------+---------+
+1 row in set (0.00 sec)
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+15.	Create a query that displays employees’ last names, and indicates the amounts of their salaries with asterisks.
+ Each asterisk signifies a thousand dollars. Sort the data in descending order of salary. Label the column EMPLOYEES_AND_THEIR_SALARIES.
+
+SELECT 
+    last_name, 
+    CONCAT(last_name, ' ', REPEAT('*', FLOOR(salary / 1000))) AS EMPLOYEES_AND_THEIR_SALARIES
+FROM employees
+ORDER BY salary DESC;
 
 
-15.	Create a query that displays employees’ last names, and indicates the amounts of their salaries with asterisks. Each asterisk signifies a thousand dollars. Sort the data in descending order of salary. Label the column EMPLOYEES_AND_THEIR_SALARIES.
-
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 ------------------------------------------ Joins --------------------------------------------------------
-16.	Write a query for the HR department to produce the addresses of all the departments. Use the LOCATIONS and COUNTRIES tables. Show the location ID, street address, city, state or province, and country in the output. 
+16.	Write a query for the HR department to produce the addresses of all the departments. 
+Use the LOCATIONS and COUNTRIES tables. Show the location ID, street address, city, state or province, and country in the output. 
+
+select l.location_id, l.street_address,l.city,l.state_province,c.country_name from locations l join countries c
+on c.country_id=l.country_id;
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+mysql> select l.location_id, l.street_address,l.city,l.state_province,c.country_name from locations l join countries c
+    -> on c.country_id=l.country_id;
++-------------+------------------------------------------+---------------------+-------------------+--------------------------+
+| location_id | street_address                           | city                | state_province    | country_name             |
++-------------+------------------------------------------+---------------------+-------------------+--------------------------+
+|        1000 | 1297 Via Cola di Rie                     | Roma                | NULL              | Italy                    |
+|        1100 | 93091 Calle della Testa                  | Venice              | NULL              | Italy                    |
+|        1200 | 2017 Shinjuku-ku                         | Tokyo               | Tokyo Prefecture  | Japan                    |
+|        1300 | 9450 Kamiya-cho                          | Hiroshima           | NULL              | Japan                    |
+|        1400 | 2014 Jabberwocky Rd                      | Southlake           | Texas             | United States of America |
+|        1500 | 2011 Interiors Blvd                      | South San Francisco | California        | United States of America |
+|        1600 | 2007 Zagora St                           | South Brunswick     | New Jersey        | United States of America |
+|        1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|        1800 | 147 Spadina Ave                          | Toronto             | Ontario           | Canada                   |
+|        1900 | 6092 Boxwood St                          | Whitehorse          | Yukon             | Canada                   |
+|        2000 | 40-5-12 Laogianggen                      | Beijing             | NULL              | China                    |
+|        2100 | 1298 Vileparle (E)                       | Bombay              | Maharashtra       | India                    |
+|        2200 | 12-98 Victoria Street                    | Sydney              | New South Wales   | Australia                |
+|        2300 | 198 Clementi North                       | Singapore           | NULL              | Singapore                |
+|        2400 | 8204 Arthur St                           | London              | NULL              | United Kingdom           |
+|        2500 | Magdalen Centre, The Oxford Science Park | Oxford              | Oxford            | United Kingdom           |
+|        2600 | 9702 Chester Road                        | Stretford           | Manchester        | United Kingdom           |
+|        2700 | Schwanthalerstr. 7031                    | Munich              | Bavaria           | Germany                  |
+|        2800 | Rua Frei Caneca 1360                     | Sao Paulo           | Sao Paulo         | Brazil                   |
+|        2900 | 20 Rue des Corps-Saints                  | Geneva              | Geneve            | Switzerland              |
+|        3000 | Murtenstrasse 921                        | Bern                | BE                | Switzerland              |
+|        3100 | Pieter Breughelstraat 837                | Utrecht             | Utrecht           | Netherlands              |
+|        3200 | Mariano Escobedo 9991                    | Mexico City         | Distrito Federal, | Mexico                   |
++-------------+------------------------------------------+---------------------+-------------------+--------------------------+
+23 rows in set (0.00 sec)
 
 
-17.	The HR department needs a report of all employees with corresponding departments. Write a query to display the last name, department number, and department name for all the employees.
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+17.	The HR department needs a report of all employees with corresponding departments.
+ Write a query to display the last name, department number, and department name for all the employees.
 
 
+select e.last_name,d.department_id,d.department_name from employees e 
+join
+departments d
+on e.department_id=d.department_id;
+#####################################################
+mysql> select e.last_name,d.department_id,d.department_name from employees e
+    -> join
+    -> departments d
+    -> on e.department_id=d.department_id;
++-------------+---------------+------------------+
+| last_name   | department_id | department_name  |
++-------------+---------------+------------------+
+| Whalen      |            10 | Administration   |
+| Hartstein   |            20 | Marketing        |
+| Fay         |            20 | Marketing        |
+| Raphaely    |            30 | Purchasing       |
+| Khoo        |            30 | Purchasing       |
+| Baida       |            30 | Purchasing       |
+| Tobias      |            30 | Purchasing       |
+| Himuro      |            30 | Purchasing       |
+| Colmenares  |            30 | Purchasing       |
+| Mavris      |            40 | Human Resources  |
+| Weiss       |            50 | Shipping         |
+| Fripp       |            50 | Shipping         |
+| Kaufling    |            50 | Shipping         |
+| Vollman     |            50 | Shipping         |
+| Mourgos     |            50 | Shipping         |
+| Nayer       |            50 | Shipping         |
+| Mikkilineni |            50 | Shipping         |
+| Landry      |            50 | Shipping         |
+| Markle      |            50 | Shipping         |
+| Bissot      |            50 | Shipping         |
+| Atkinson    |            50 | Shipping         |
+| Marlow      |            50 | Shipping         |
+| Olson       |            50 | Shipping         |
+| Mallin      |            50 | Shipping         |
+| Rogers      |            50 | Shipping         |
+| Gee         |            50 | Shipping         |
+| Philtanker  |            50 | Shipping         |
+| Ladwig      |            50 | Shipping         |
+| Stiles      |            50 | Shipping         |
+| Seo         |            50 | Shipping         |
+| Patel       |            50 | Shipping         |
+| Rajs        |            50 | Shipping         |
+| Davies      |            50 | Shipping         |
+| Matos       |            50 | Shipping         |
+| Vargas      |            50 | Shipping         |
+| Taylor      |            50 | Shipping         |
+| Fleaur      |            50 | Shipping         |
+| Sullivan    |            50 | Shipping         |
+| Geoni       |            50 | Shipping         |
+| Sarchand    |            50 | Shipping         |
+| Bull        |            50 | Shipping         |
+| Dellinger   |            50 | Shipping         |
+| Cabrio      |            50 | Shipping         |
+| Chung       |            50 | Shipping         |
+| Dilly       |            50 | Shipping         |
+| Gates       |            50 | Shipping         |
+| Perkins     |            50 | Shipping         |
+| Bell        |            50 | Shipping         |
+| Everett     |            50 | Shipping         |
+| McCain      |            50 | Shipping         |
+| Jones       |            50 | Shipping         |
+| Walsh       |            50 | Shipping         |
+| Feeney      |            50 | Shipping         |
+| OConnell    |            50 | Shipping         |
+| Grant       |            50 | Shipping         |
+| Hunold      |            60 | IT               |
+| Ernst       |            60 | IT               |
+| Austin      |            60 | IT               |
+| Pataballa   |            60 | IT               |
+| Lorentz     |            60 | IT               |
+| Baer        |            70 | Public Relations |
+| Russell     |            80 | Sales            |
+| Partners    |            80 | Sales            |
+| Errazuriz   |            80 | Sales            |
+| Cambrault   |            80 | Sales            |
+| Zlotkey     |            80 | Sales            |
+| Tucker      |            80 | Sales            |
+| Bernstein   |            80 | Sales            |
+| Hall        |            80 | Sales            |
+| Olsen       |            80 | Sales            |
+| Cambrault   |            80 | Sales            |
+| Tuvault     |            80 | Sales            |
+| King        |            80 | Sales            |
+| Sully       |            80 | Sales            |
+| McEwen      |            80 | Sales            |
+| Smith       |            80 | Sales            |
+| Doran       |            80 | Sales            |
+| Sewall      |            80 | Sales            |
+| Vishney     |            80 | Sales            |
+| Greene      |            80 | Sales            |
+| Marvins     |            80 | Sales            |
+| Lee         |            80 | Sales            |
+| Ande        |            80 | Sales            |
+| Banda       |            80 | Sales            |
+| Ozer        |            80 | Sales            |
+| Bloom       |            80 | Sales            |
+| Fox         |            80 | Sales            |
+| Smith       |            80 | Sales            |
+| Bates       |            80 | Sales            |
+| Kumar       |            80 | Sales            |
+| Abel        |            80 | Sales            |
+| Hutton      |            80 | Sales            |
+| Taylor      |            80 | Sales            |
+| Livingston  |            80 | Sales            |
+| Johnson     |            80 | Sales            |
+| King        |            90 | Executive        |
+| Kochhar     |            90 | Executive        |
+| De Haan     |            90 | Executive        |
+| Greenberg   |           100 | Finance          |
+| Faviet      |           100 | Finance          |
+| Chen        |           100 | Finance          |
+| Sciarra     |           100 | Finance          |
+| Urman       |           100 | Finance          |
+| Popp        |           100 | Finance          |
+| Higgins     |           110 | Accounting       |
+| Gietz       |           110 | Accounting       |
++-------------+---------------+------------------+
+106 rows in set (0.00 sec)
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 18.	The HR department needs a report of employees in Toronto. Display the last name, job, department number, and department name for all employees who work in Toronto.
 
-19.	Create a report to display employees’ last names and employee numbers along with their managers’ last names and manager numbers. Label the columns Employee, Emp#, Manager, and Mgr#, respectively. 
+select e.last_name,d.department_id,d.department_name from employees e 
+join
+departments d
+on e.department_id=d.department_id
+where d.location_id=any(select location_id from locations where city='Toronto');
 
+################################################################################
+mysql> select e.last_name,d.department_id,d.department_name from employees e
+    -> join
+    -> departments d
+    -> on e.department_id=d.department_id
+    -> where d.location_id=any(select location_id from locations where city='Toronto');
++-----------+---------------+-----------------+
+| last_name | department_id | department_name |
++-----------+---------------+-----------------+
+| Hartstein |            20 | Marketing       |
+| Fay       |            20 | Marketing       |
++-----------+---------------+-----------------+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+19.	Create a report to display employees’ last names and employee numbers along with their managers’ last names and manager numbers. 
+Label the columns Employee, Emp#, Manager, and Mgr#, respectively. 
+
+select e.last_name Employee,e.employee_id 'Emp#',m.last_name Manager,m.employee_id 'Mgr#' from employees e 
+inner join 
+employees m
+on e.manager_id=m.employee_id
+where e.manager_id is not null;
+#############################################################################################
+mysql> select e.last_name Employee,e.employee_id 'Emp#',m.last_name Manager,m.employee_id 'Mgr#' from employees e
+    -> left join
+    -> employees m
+    -> on e.manager_id=m.employee_id
+    -> where e.manager_id is not null;
++-------------+------+-----------+------+
+| Employee    | Emp# | Manager   | Mgr# |
++-------------+------+-----------+------+
+| Kochhar     |  101 | King      |  100 |
+| De Haan     |  102 | King      |  100 |
+| Hunold      |  103 | De Haan   |  102 |
+| Ernst       |  104 | Hunold    |  103 |
+| Austin      |  105 | Hunold    |  103 |
+| Pataballa   |  106 | Hunold    |  103 |
+| Lorentz     |  107 | Hunold    |  103 |
+| Greenberg   |  108 | Kochhar   |  101 |
+| Faviet      |  109 | Greenberg |  108 |
+| Chen        |  110 | Greenberg |  108 |
+| Sciarra     |  111 | Greenberg |  108 |
+| Urman       |  112 | Greenberg |  108 |
+| Popp        |  113 | Greenberg |  108 |
+| Raphaely    |  114 | King      |  100 |
+| Khoo        |  115 | Raphaely  |  114 |
+| Baida       |  116 | Raphaely  |  114 |
+| Tobias      |  117 | Raphaely  |  114 |
+| Himuro      |  118 | Raphaely  |  114 |
+| Colmenares  |  119 | Raphaely  |  114 |
+| Weiss       |  120 | King      |  100 |
+| Fripp       |  121 | King      |  100 |
+| Kaufling    |  122 | King      |  100 |
+| Vollman     |  123 | King      |  100 |
+| Mourgos     |  124 | King      |  100 |
+| Nayer       |  125 | Weiss     |  120 |
+| Mikkilineni |  126 | Weiss     |  120 |
+| Landry      |  127 | Weiss     |  120 |
+| Markle      |  128 | Weiss     |  120 |
+| Bissot      |  129 | Fripp     |  121 |
+| Atkinson    |  130 | Fripp     |  121 |
+| Marlow      |  131 | Fripp     |  121 |
+| Olson       |  132 | Fripp     |  121 |
+| Mallin      |  133 | Kaufling  |  122 |
+| Rogers      |  134 | Kaufling  |  122 |
+| Gee         |  135 | Kaufling  |  122 |
+| Philtanker  |  136 | Kaufling  |  122 |
+| Ladwig      |  137 | Vollman   |  123 |
+| Stiles      |  138 | Vollman   |  123 |
+| Seo         |  139 | Vollman   |  123 |
+| Patel       |  140 | Vollman   |  123 |
+| Rajs        |  141 | Mourgos   |  124 |
+| Davies      |  142 | Mourgos   |  124 |
+| Matos       |  143 | Mourgos   |  124 |
+| Vargas      |  144 | Mourgos   |  124 |
+| Russell     |  145 | King      |  100 |
+| Partners    |  146 | King      |  100 |
+| Errazuriz   |  147 | King      |  100 |
+| Cambrault   |  148 | King      |  100 |
+| Zlotkey     |  149 | King      |  100 |
+| Tucker      |  150 | Russell   |  145 |
+| Bernstein   |  151 | Russell   |  145 |
+| Hall        |  152 | Russell   |  145 |
+| Olsen       |  153 | Russell   |  145 |
+| Cambrault   |  154 | Russell   |  145 |
+| Tuvault     |  155 | Russell   |  145 |
+| King        |  156 | Partners  |  146 |
+| Sully       |  157 | Partners  |  146 |
+| McEwen      |  158 | Partners  |  146 |
+| Smith       |  159 | Partners  |  146 |
+| Doran       |  160 | Partners  |  146 |
+| Sewall      |  161 | Partners  |  146 |
+| Vishney     |  162 | Errazuriz |  147 |
+| Greene      |  163 | Errazuriz |  147 |
+| Marvins     |  164 | Errazuriz |  147 |
+| Lee         |  165 | Errazuriz |  147 |
+| Ande        |  166 | Errazuriz |  147 |
+| Banda       |  167 | Errazuriz |  147 |
+| Ozer        |  168 | Cambrault |  148 |
+| Bloom       |  169 | Cambrault |  148 |
+| Fox         |  170 | Cambrault |  148 |
+| Smith       |  171 | Cambrault |  148 |
+| Bates       |  172 | Cambrault |  148 |
+| Kumar       |  173 | Cambrault |  148 |
+| Abel        |  174 | Zlotkey   |  149 |
+| Hutton      |  175 | Zlotkey   |  149 |
+| Taylor      |  176 | Zlotkey   |  149 |
+| Livingston  |  177 | Zlotkey   |  149 |
+| Grant       |  178 | Zlotkey   |  149 |
+| Johnson     |  179 | Zlotkey   |  149 |
+| Taylor      |  180 | Weiss     |  120 |
+| Fleaur      |  181 | Weiss     |  120 |
+| Sullivan    |  182 | Weiss     |  120 |
+| Geoni       |  183 | Weiss     |  120 |
+| Sarchand    |  184 | Fripp     |  121 |
+| Bull        |  185 | Fripp     |  121 |
+| Dellinger   |  186 | Fripp     |  121 |
+| Cabrio      |  187 | Fripp     |  121 |
+| Chung       |  188 | Kaufling  |  122 |
+| Dilly       |  189 | Kaufling  |  122 |
+| Gates       |  190 | Kaufling  |  122 |
+| Perkins     |  191 | Kaufling  |  122 |
+| Bell        |  192 | Vollman   |  123 |
+| Everett     |  193 | Vollman   |  123 |
+| McCain      |  194 | Vollman   |  123 |
+| Jones       |  195 | Vollman   |  123 |
+| Walsh       |  196 | Mourgos   |  124 |
+| Feeney      |  197 | Mourgos   |  124 |
+| OConnell    |  198 | Mourgos   |  124 |
+| Grant       |  199 | Mourgos   |  124 |
+| Whalen      |  200 | Kochhar   |  101 |
+| Hartstein   |  201 | King      |  100 |
+| Fay         |  202 | Hartstein |  201 |
+| Mavris      |  203 | Kochhar   |  101 |
+| Baer        |  204 | Kochhar   |  101 |
+| Higgins     |  205 | Kochhar   |  101 |
+| Gietz       |  206 | Higgins   |  205 |
++-------------+------+-----------+------+
+106 rows in set (0.00 sec)
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 20.	Modifyabove to display all employees, including King, who has no manager. Order the results by employee number.
 
-21.	Create a report for the HR department that displays employee last names, department numbers, and all employees who work in the same department(colleague) as a given employee. Give each column an appropriate label.
+mysql> select e.last_name Employee,e.employee_id 'Emp#',m.last_name Manager,m.employee_id 'Mgr#' from employees e  left join  employees m on e.manager_id=m.employee_id order by e.employee_id;
++-------------+------+-----------+------+
+| Employee    | Emp# | Manager   | Mgr# |
++-------------+------+-----------+------+
+| King        |  100 | NULL      | NULL |
+| Kochhar     |  101 | King      |  100 |
+| De Haan     |  102 | King      |  100 |
+| Hunold      |  103 | De Haan   |  102 |
+| Ernst       |  104 | Hunold    |  103 |
+| Austin      |  105 | Hunold    |  103 |
+| Pataballa   |  106 | Hunold    |  103 |
+| Lorentz     |  107 | Hunold    |  103 |
+| Greenberg   |  108 | Kochhar   |  101 |
+| Faviet      |  109 | Greenberg |  108 |
+| Chen        |  110 | Greenberg |  108 |
+| Sciarra     |  111 | Greenberg |  108 |
+| Urman       |  112 | Greenberg |  108 |
+| Popp        |  113 | Greenberg |  108 |
+| Raphaely    |  114 | King      |  100 |
+| Khoo        |  115 | Raphaely  |  114 |
+| Baida       |  116 | Raphaely  |  114 |
+| Tobias      |  117 | Raphaely  |  114 |
+| Himuro      |  118 | Raphaely  |  114 |
+| Colmenares  |  119 | Raphaely  |  114 |
+| Weiss       |  120 | King      |  100 |
+| Fripp       |  121 | King      |  100 |
+| Kaufling    |  122 | King      |  100 |
+| Vollman     |  123 | King      |  100 |
+| Mourgos     |  124 | King      |  100 |
+| Nayer       |  125 | Weiss     |  120 |
+| Mikkilineni |  126 | Weiss     |  120 |
+| Landry      |  127 | Weiss     |  120 |
+| Markle      |  128 | Weiss     |  120 |
+| Bissot      |  129 | Fripp     |  121 |
+| Atkinson    |  130 | Fripp     |  121 |
+| Marlow      |  131 | Fripp     |  121 |
+| Olson       |  132 | Fripp     |  121 |
+| Mallin      |  133 | Kaufling  |  122 |
+| Rogers      |  134 | Kaufling  |  122 |
+| Gee         |  135 | Kaufling  |  122 |
+| Philtanker  |  136 | Kaufling  |  122 |
+| Ladwig      |  137 | Vollman   |  123 |
+| Stiles      |  138 | Vollman   |  123 |
+| Seo         |  139 | Vollman   |  123 |
+| Patel       |  140 | Vollman   |  123 |
+| Rajs        |  141 | Mourgos   |  124 |
+| Davies      |  142 | Mourgos   |  124 |
+| Matos       |  143 | Mourgos   |  124 |
+| Vargas      |  144 | Mourgos   |  124 |
+| Russell     |  145 | King      |  100 |
+| Partners    |  146 | King      |  100 |
+| Errazuriz   |  147 | King      |  100 |
+| Cambrault   |  148 | King      |  100 |
+| Zlotkey     |  149 | King      |  100 |
+| Tucker      |  150 | Russell   |  145 |
+| Bernstein   |  151 | Russell   |  145 |
+| Hall        |  152 | Russell   |  145 |
+| Olsen       |  153 | Russell   |  145 |
+| Cambrault   |  154 | Russell   |  145 |
+| Tuvault     |  155 | Russell   |  145 |
+| King        |  156 | Partners  |  146 |
+| Sully       |  157 | Partners  |  146 |
+| McEwen      |  158 | Partners  |  146 |
+| Smith       |  159 | Partners  |  146 |
+| Doran       |  160 | Partners  |  146 |
+| Sewall      |  161 | Partners  |  146 |
+| Vishney     |  162 | Errazuriz |  147 |
+| Greene      |  163 | Errazuriz |  147 |
+| Marvins     |  164 | Errazuriz |  147 |
+| Lee         |  165 | Errazuriz |  147 |
+| Ande        |  166 | Errazuriz |  147 |
+| Banda       |  167 | Errazuriz |  147 |
+| Ozer        |  168 | Cambrault |  148 |
+| Bloom       |  169 | Cambrault |  148 |
+| Fox         |  170 | Cambrault |  148 |
+| Smith       |  171 | Cambrault |  148 |
+| Bates       |  172 | Cambrault |  148 |
+| Kumar       |  173 | Cambrault |  148 |
+| Abel        |  174 | Zlotkey   |  149 |
+| Hutton      |  175 | Zlotkey   |  149 |
+| Taylor      |  176 | Zlotkey   |  149 |
+| Livingston  |  177 | Zlotkey   |  149 |
+| Grant       |  178 | Zlotkey   |  149 |
+| Johnson     |  179 | Zlotkey   |  149 |
+| Taylor      |  180 | Weiss     |  120 |
+| Fleaur      |  181 | Weiss     |  120 |
+| Sullivan    |  182 | Weiss     |  120 |
+| Geoni       |  183 | Weiss     |  120 |
+| Sarchand    |  184 | Fripp     |  121 |
+| Bull        |  185 | Fripp     |  121 |
+| Dellinger   |  186 | Fripp     |  121 |
+| Cabrio      |  187 | Fripp     |  121 |
+| Chung       |  188 | Kaufling  |  122 |
+| Dilly       |  189 | Kaufling  |  122 |
+| Gates       |  190 | Kaufling  |  122 |
+| Perkins     |  191 | Kaufling  |  122 |
+| Bell        |  192 | Vollman   |  123 |
+| Everett     |  193 | Vollman   |  123 |
+| McCain      |  194 | Vollman   |  123 |
+| Jones       |  195 | Vollman   |  123 |
+| Walsh       |  196 | Mourgos   |  124 |
+| Feeney      |  197 | Mourgos   |  124 |
+| OConnell    |  198 | Mourgos   |  124 |
+| Grant       |  199 | Mourgos   |  124 |
+| Whalen      |  200 | Kochhar   |  101 |
+| Hartstein   |  201 | King      |  100 |
+| Fay         |  202 | Hartstein |  201 |
+| Mavris      |  203 | Kochhar   |  101 |
+| Baer        |  204 | Kochhar   |  101 |
+| Higgins     |  205 | Kochhar   |  101 |
+| Gietz       |  206 | Higgins   |  205 |
++-------------+------+-----------+------+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+21.	Create a report for the HR department that displays employee last names, department numbers, and all employees who work in the same department(colleague) as a given employee.
+ Give each column an appropriate label.
 
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 22.	The HR department needs a report on job grades and salaries. To familiarize yourself with the JOB_GRADES table, first show the structure of the JOB_GRADES table. Then create a query that displays the name, job, department name, salary, and grade for all employees.
 DESC JOB_GRADES;
 
@@ -546,26 +1178,261 @@ Business Logic: The procedure should calculate the number of employees who left 
 
 
 ----------------------------- Function -----------------------
-1. Problem: "The finance department needs to calculate the average salary for each department to analyze salary distribution and budget planning."
-
+1. Problem: "The finance department needs to calculate 
+the average salary for each department to 
+analyze salary distribution and budget planning."
 Function: GetAverageDepartmentSalary(dept_id INT)
 
-2. Problem: "As an HR analyst, I need to quickly retrieve the full name of an employee given their employee ID for reporting purposes."
+select avg(salary) form employees
+group by department_id;
+
+############
+delimiter //
+drop function if exists GetAverageDepartmentSalary;
+create function GetAverageDepartmentSalary(dept_id int) returns decimal(10,2) deterministic
+begin
+	declare avgsal decimal(10,2);
+	select avg(salary) into avgsal from employees
+	where department_id=dept_id;
+	return avgsal;
+end //
+delimiter ;
+
+#############
+
+mysql> drop function if exists GetAverageDepartmentSalary;
+    -> create function GetAverageDepartmentSalary(dept_id int) returns decimal(10,2) deterministic
+    -> begin
+    -> declare avgsal decimal(10,2);
+    -> select avg(salary) into avgsal from employees
+    -> where department_id=dept_id;
+    -> return avgsal;
+    -> end //
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select GetAverageDepartmentSalary(100);
++---------------------------------+
+| GetAverageDepartmentSalary(100) |
++---------------------------------+
+|                         8600.00 |
++---------------------------------+
+1 row in set (0.00 sec)
+mysql> select GetAverageDepartmentSalary(10);
++--------------------------------+
+| GetAverageDepartmentSalary(10) |
++--------------------------------+
+|                        4400.00 |
++--------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select GetAverageDepartmentSalary(20);
++--------------------------------+
+| GetAverageDepartmentSalary(20) |
++--------------------------------+
+|                        9500.00 |
++--------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select GetAverageDepartmentSalary(30);
++--------------------------------+
+| GetAverageDepartmentSalary(30) |
++--------------------------------+
+|                        4150.00 |
++--------------------------------+
+1 row in set (0.00 sec)
+_________________________________________________________________________________________
+
+2. Problem: "As an HR analyst, 
+I need to quickly retrieve the full name of an employee 
+given their employee ID for reporting purposes."
 
 Function: GetEmployeeFullName(emp_id INT)
+################
+delimiter //
+drop function if exists GetEmployeeFullName;
+create function GetEmployeeFullName(emp_id int) returns varchar(30) deterministic
+begin
+	declare fullname varchar(30);
+	select concat(first_name,' ',last_name) into fullname
+	from employees 
+	where employee_id=emp_id;
+	return fullname;
+end //
+delimiter ;
+##################
 
-3.Problem: "When reviewing employee information, I need to know the department name an employee belongs to, given their employee ID."
+mysql> select GetEmployeeFullName(employee_id) fullname, email,first_name from employees limit 5;
++------------------+----------+------------+
+| fullname         | email    | first_name |
++------------------+----------+------------+
+| Steven King      | SKING    | Steven     |
+| Neena Kochhar    | NKOCHHAR | Neena      |
+| Lex De Haan      | LDEHAAN  | Lex        |
+| Alexander Hunold | AHUNOLD  | Alexander  |
+| Bruce Ernst      | BERNST   | Bruce      |
++------------------+----------+------------+
+5 rows in set (0.00 sec)
+
+
+
+
+_________________________________________________________________________________________
+
+3.Problem: "When reviewing employee information,
+ I need to know the department name an employee belongs to,
+  given their employee ID."
 
 Function: GetEmployeeDepartmentName(emp_id INT)
 
-4.Problem: "The HR department requires a count of employees in each department for workforce planning and resource allocation."
+select department_name from departments
+	where department_id = (select department_id from employees
+	where employee_id=100);
+#############
+delimiter //
+drop function if exists GetEmployeeDepartmentName;
+create function GetEmployeeDepartmentName(emp_id int) returns varchar(30) deterministic
+begin
+	declare depart_name varchar(30);
+	select department_name into depart_name from departments
+	where department_id = (select department_id from employees
+	where employee_id=emp_id);
+	return depart_name;
+end //
+delimiter ;
+
+##############
+
+mysql> delimiter //
+mysql> drop function if exists GetEmployeeDepartmentName;
+    -> create function GetEmployeeDepartmentName(emp_id int) returns varchar(30) deterministic
+    -> begin
+    -> declare depart_name varchar(30);
+    -> select department_name into depart_name from departments
+    -> where department_id = (select department_id from employees
+    -> where employee_id=emp_id);
+    -> return depart_name;
+    -> end //
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> select employee_id,first_name,GetEmployeeDepartmentName(employee_id) department_name from employees limit 10;
++-------------+------------+-----------------+
+| employee_id | first_name | department_name |
++-------------+------------+-----------------+
+|         100 | Steven     | Executive       |
+|         101 | Neena      | Executive       |
+|         102 | Lex        | Executive       |
+|         103 | Alexander  | IT              |
+|         104 | Bruce      | IT              |
+|         105 | David      | IT              |
+|         106 | Valli      | IT              |
+|         107 | Diana      | IT              |
+|         108 | Nancy      | Finance         |
+|         109 | Daniel     | Finance         |
++-------------+------------+-----------------+
+10 rows in set (0.00 sec)
+
+_________________________________________________________________________________________
+
+4.Problem: "The HR department requires a count of employees in each
+ department for workforce planning and resource allocation."
 
 Function: CountEmployeesInDepartment(dept_id INT)
+###########
+delimiter //
+drop function if exists CountEmployeesInDepartment;
+create function CountEmployeesInDepartment(dept_id int) returns int deterministic
+begin
+	declare count_emp int;
+	select count(*) into count_emp 
+	from employees 
+	where department_id=dept_id;
+	return count_emp;
+end //
+delimiter ;
+###########
+mysql> select CountEmployeesInDepartment(department_id) count_emp , department_id from employees
+    -> group by department_id;
++-----------+---------------+
+| count_emp | department_id |
++-----------+---------------+
+|         0 |          NULL |
+|         1 |            10 |
+|         2 |            20 |
+|         6 |            30 |
+|         1 |            40 |
+|        45 |            50 |
+|         5 |            60 |
+|         1 |            70 |
+|        34 |            80 |
+|         3 |            90 |
+|         6 |           100 |
+|         2 |           110 |
++-----------+---------------+
+12 rows in set (0.00 sec)
 
-5.Problem: "The HR department needs to know the highest salary within each department for salary benchmarking and to identify potential pay disparities."
+
+
+_________________________________________________________________________________________
+
+5.Problem: "The HR department needs to know the 
+highest salary within each department for salary benchmarking 
+and to identify potential pay disparities."
 
 Function: GetHighestSalaryInDepartment(dept_id INT)
- 
+
+
+###########################
+delimiter //
+drop function if exists GetHighestSalaryInDepartment;
+create function GetHighestSalaryInDepartment(dept_id int) returns decimal(8,2) deterministic
+begin
+	declare max_sal decimal(8,2);
+	select max(salary) into max_sal 
+	from employees 
+	where department_id=dept_id;
+	return max_sal;
+end //
+delimiter ;
+#########################
+mysql> drop function if exists GetHighestSalaryInDepartment;
+    -> create function GetHighestSalaryInDepartment(dept_id int) returns decimal(8,2) deterministic
+    -> begin
+    -> declare max_sal decimal(8,2);
+    -> select max(salary) into max_sal
+    -> from employees
+    -> where department_id=dept_id;
+    -> return max_sal;
+    -> end //
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select department_id,GetHighestSalaryInDepartment(department_id) highest_sal from employees
+    -> group by department_id;
++---------------+-------------+
+| department_id | highest_sal |
++---------------+-------------+
+|          NULL |        NULL |
+|            10 |     4400.00 |
+|            20 |    13000.00 |
+|            30 |    11000.00 |
+|            40 |     6500.00 |
+|            50 |     8200.00 |
+|            60 |     9000.00 |
+|            70 |    10000.00 |
+|            80 |    14000.00 |
+|            90 |    24000.00 |
+|           100 |    12000.00 |
+|           110 |    12000.00 |
++---------------+-------------+
+12 rows in set (0.00 sec)
 
 
 
@@ -576,5 +1443,41 @@ Function: GetHighestSalaryInDepartment(dept_id INT)
 
 
 
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+cursor to fetch users:
+DELIMITER //
+CREATE PROCEDURE fetch_users()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE user_name VARCHAR(255);
+    DECLARE cur CURSOR FOR SELECT first_name FROM employees;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO user_name;
+        select user_name;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        -- You can process each row here (printing is not possible directly)
+    END LOOP;
+
+    CLOSE cur;
+END;
+//
+DELIMITER ;
 
 
+
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+delimiter //
+drop procedure if exists example_p;
+create procedure example_p()
+begin
+    select * from employees limit 20;
+    end //
+    delimiter ;
