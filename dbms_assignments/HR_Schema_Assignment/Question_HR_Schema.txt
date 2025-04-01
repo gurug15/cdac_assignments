@@ -1079,7 +1079,9 @@ department_id in (select department_id from employees where last_name like '%U%'
 _________________________________________________________________________________________________________________________________________________________________
 ------------------------------------: Using Set Operators :--------------------------
 
-33.	The HR department needs a list of department IDs for departments that do not contain the job ID ST_CLERK. Use the set operators to create this report.
+33.	The HR department needs a list of department IDs for 
+departments that do not contain the job ID ST_CLERK. 
+Use the set operators to create this report.
 
 34.	The HR department needs a list of countries that have no departments located in them. Display the country IDs and the names of the countries. Use the set operators to create this report.
 
