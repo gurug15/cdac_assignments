@@ -1083,7 +1083,12 @@ ________________________________________________________________________________
 departments that do not contain the job ID ST_CLERK. 
 Use the set operators to create this report.
 
-34.	The HR department needs a list of countries that have no departments located in them. Display the country IDs and the names of the countries. Use the set operators to create this report.
+
+34.	The HR department needs a list of countries that have no departments located in them. Display the country IDs and the names of the countries. 
+Use the set operators to create this report.
+
+
+
 
 35.	Produce a list of all the employees who work in departments 50 and 80. Display the employee ID, job ID, and department ID by using the set operators.
 
@@ -1094,10 +1099,13 @@ Insert data into the MY_EMPLOYEE table.
 37.	Create a table called MY_EMPLOYEE.
 
 CREATE TABLE my_employee
-(id int CONSTRAINT my_employee_id_pk PRIMARY Key,
- last_name VARCHAR(25),
-first_name VARCHAR(25),
-userid VARCHAR(8), salary decimal(9,2));
+(   id int,
+    last_name VARCHAR(25),
+    first_name VARCHAR(25),
+    userid VARCHAR(10),
+    salary decimal(9,2),
+    CONSTRAINT my_employee_id_pk PRIMARY Key(id)
+);
 
 
 
@@ -1110,7 +1118,26 @@ ID	LAST_NAME	FIRST_NAME	USERID	SALARY
 4	Newman	Chad	cnewman	750
 5	Ropeburn	Audrey	aropebur	1550
 
+insert into my_employee(id,last_name,first_name,salary)
+values(1,'Patel','Ralph',895),
+(2,'Dancs','Betty',860),
+(3,'Biri','ben',1100),
+(4,'Newman','chad',750),
+(5,'Ropeburn','Audrey',1550);
+
 pass values to id last_name,first_name and salary and generate userid as given
+
+delimiter //
+drop trigger if exists generate_userid;
+create trigger generate_userid
+before insert
+on my_employee
+for each row
+begin
+    set new.userid = lower(concat(substr(new.first_name,1,1),substr(new.last_name,2)));
+end //
+delimiter ;
+    
 
 ------------------------------------- procedure ----------------------
 1. Retrieve Employees by Manager
@@ -1483,3 +1510,138 @@ begin
     select * from employees limit 20;
     end //
     delimiter ;
+
+
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+delimiter //
+drop function if exists rollno_simple_interest;
+create function rollno_simple_interest(amount int,year int,rate int) returns decimal(8,2) deterministic
+begin
+declare simple_in decimal(8,2);
+ set simple_in = (amount*year*rate)/100;
+ return simple_in;
+end //
+delimiter ;
+
+################################################
+
+delimiter //
+drop trigger if exists bf_update;
+create trigger bf_update
+before update
+on book
+for each row
+begin
+    
+     insert into PriceChangeLog
+     values(old.book_id,old.price,new.price,old.title,curdate());
+    end //
+    delimiter;
+
+_________________________________________________________________________________________
+
+
+create table customer
+(
+    customer_id int primary key,
+    cust_city varchar(20),
+    customer_name varchar(20)
+);
+
+create table hotel_book
+(
+    booking_id int primary key,
+    customer_id int,
+    check_in date,
+    check_out date,
+    hotel_id int,
+    cost_perday int,
+    discount int,
+    hotel_name varchar(20),
+    location varchar(20),
+    constraint fk_customer foreign key(customer_id) references customer(customer_id)
+);
+
+insert into customer
+values(111,'mumbai','rishikesh'),
+(112,'pune','mahdav'),
+(113,'pune','ritesh'),
+(114,'benglore','pooja'),
+(115,'nashik','sameer');
+
+insert into hotel_book
+values(11,111,'2025-01-05','2025-01-07',2501,7200,0,'kashish','goa'),
+(22,112,'2025-02-06','2025-02-08',2502,12500,0,'abhiruchi','manali'),
+(33,113,'2025-05-09','2025-05-11',2503,10500,0,'sitara','goa'),
+(44,111,'2025-04-06','2025-04-07',2504,9000,0,'paradise','kerala'),
+(55,115,'2025-09-15','2025-09-16',2505,4500,0,'balaji','tirupati');
+
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+select * from customer where customer_name regexp '^r.*h$';
+
+select * from hotel_book where month(check_in)>3 and year(check_in)>=2025;
+
+update hotel_book
+set hotel_name='annapurna'
+where hotel_name='abhiruchi';
+
+select c.*,h.* from customer c left join hotel_book h
+on c.customer_id=h.customer_id
+where c.cust_city = 'pune';
+
+select * from customer
+where customer_id=(select customer_id from hotel_book
+group by customer_id
+having count(*)>1
+);
+
+select location,sum(cost_perday) from hotel_book
+group by location
+having sum(cost_perday)>17000;
+
+select * from customer
+where customer_id not in (select customer_id from hotel_book);
+
+##################################################
+
+
+##########################################
+delimiter //
+drop procedure if exists update_discount;
+create procedure update_discount()
+begin
+  UPDATE hotel_book
+    SET discount = 0
+    WHERE cost_perday <= 4500;
+
+    UPDATE hotel_book
+    SET discount = 10
+    WHERE cost_perday > 4500 AND cost_perday <= 10000;
+
+    UPDATE hotel_book
+    SET discount = 20
+    WHERE cost_perday > 10000;
+end //
+delimiter ;
+
+
+ _________________________________________________________________________________________________________________________________________________________________
+
+
+ delimiter //
+ drop function if exists calc_price;
+ create function calc_price(book_id int) returns int deterministic
+ begin
+  declare total_price int;
+  select (cost_perday * datediff(check_out,check_in)) into total_price from hotel_book
+  where booking_id=book_id;
+  return total_price;
+  end //
+  delimiter ;
+
+ 

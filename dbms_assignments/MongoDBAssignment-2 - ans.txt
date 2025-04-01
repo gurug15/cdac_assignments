@@ -1,0 +1,73 @@
+1.Change rating of movie Kesari to 2  
+db.movie.updateOne({name:'Kesari'},{$set:{rating:2}})
+
+_______________________________________________________________________________________________________________________________
+
+2.increase the price of all tickits by Rs 20 for Amitabh's movie. 
+
+db.movie.updateMany({actor:/^[Aa]mitabh/},{$inc:{price: 20}})
+_______________________________________________________________________________________________________________________________
+3.Delete key rating for movie Kesari
+
+db.movie.updateOne({name:'Kesari'},{$unset:{rating:""}})
+_______________________________________________________________________________________________________________________________
+
+4.Increase price by 50 and change rating to 7 for movie 3 idiots.
+
+db.movie.updateOne({name:'3 idiots'},{$inc:{price:50},$set:{rating:7}})
+_______________________________________________________________________________________________________________________________
+5.Add new actor in movie Sholay
+db.movie.updateOne({name:'sholay'},{$set:{actor:['amatahbh','dhermender','Adi']}})
+db.movie.updateOne({name:'sholay'},{$push:{actor:'suresh'}})
+_______________________________________________________________________________________________________________________________
+6.Add multipla actors in any movie of your choice.
+
+db.movie.updateOne({name:'paa'},{$push:{actor:{$each:['ram','sham','ghansham','ramesh','suresh','jignesh']}}})
+_______________________________________________________________________________________________________________________________
+7.Add actors at a perticular position
+
+db.movie.updateOne({name:'paa'},{$push:{actor:{$each:['Guruprasad'],$position:0}}})
+
+_______________________________________________________________________________________________________________________________
+8.Delete first value from array
+
+db.movie.updateOne({name:'paa'},{$pull:{actor: 'Guruprasad'}})
+
+_______________________________________________________________________________________________________________________________
+9.delete last value from array
+
+db.movie.updateOne({name:'paa'},{$pop:{actor: 1}})
+ _______________________________________________________________________________________________________________________________
+10.For movie "kahani 2" change rating to 5.
+ 
+ db.movie.updateOne({name:'kahani 2'},{$set:{rating:5}})
+ _______________________________________________________________________________________________________________________________
+11.Change price =400 and increase rating by 2 for all movies with name Kahani in it.
+db.movie.updateMany({name: {$regex: '^kahani.*'}},{$set:{price:400},$inc:{rating:2}})
+_______________________________________________________________________________________________________________________________
+12.Decrease price of all movies by Rs.40.
+ db.movie.updateMany({price: null}, {$set: {price: 0}});
+db.movie.updateMany({name: {$regex: '^.*$'}},{$inc:{price:-40}})
+_______________________________________________________________________________________________________________________________
+
+13.Increase the price by 10% of price to display all movies with amitabh acted in it and
+ is at 1 st index position in array
+
+
+ _______________________________________________________________________________________________________________________________
+16.Create a capped collection of size 5 by name dept.Store dno, 
+ dname,location.Test this capped collection by adding new documents.
+
+db.createCollection('dept1',{max:5,size:40,capped:true})
+
+db.dept1.insertMany([ {dno:1,dname:'Rnd',location:'pune'},
+{dno:1,dname:'marketing',location:'mumbai'},
+{dno:1,dname:'finance',location:'latur'},
+{dno:1,dname:'Rnd',location:'pune'},
+{dno:1,dname:'Rnd',location:'pune'}])
+ _______________________________________________________________________________________________________________________________
+
+
+
+
+ 
