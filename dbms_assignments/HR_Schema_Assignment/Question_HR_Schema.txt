@@ -940,23 +940,79 @@ ________________________________________________________________________________
  Give each column an appropriate label.
 
 
+ select e.last_name surname, e.department_id 'department number', E.last_name colleague  from employees e join employees E on e.department_id=E.department_id
+  where e.last_name = 'Abel' and E.last_name<>'Abel';
+
+
 ____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-22.	The HR department needs a report on job grades and salaries. To familiarize yourself with the JOB_GRADES table, first show the structure of the JOB_GRADES table. Then create a query that displays the name, job, department name, salary, and grade for all employees.
+22.	The HR department needs a report on job grades and salaries.
+ To familiarize yourself with the JOB_GRADES table, first show the structure of the JOB_GRADES table.
+  Then create a query that displays the name, job, department name, salary, and grade for all employees.
 DESC JOB_GRADES;
 
 
-23.	The HR department wants to determine the names of all employees who were hired after Davies. Create a query to display the name and hire date of any employee hired after employee Davies.
+
+delimiter //
+drop function if exists sal_grade;
+create function sal_grade(sal decimal(8,2)) returns int deterministic
+begin
+    declare grade int;
+    if sal<=5000
+     then
+     set grade = 1;
+    elseif sal>5000 and sal<=10000
+     then
+     set grade = 2;
+    elseif sal>10000 and sal<=15000
+    then
+    set grade=3;
+    elseif sal>15000 and sal<=20000
+    then
+    set grade=4;
+    else
+     set grade=5;
+    end if;
+    return grade;
+end //
+delimiter ;
+
+
+select concat(e.first_name,' ',e.last_name) fullname ,j.job_title,d.department_name,e.salary,sal_grade(e.salary) salary_grade from employees e,jobs j,departments d
+where e.department_id=d.department_id and e.job_id=j.job_id order by salary_grade desc;
+
+23.	The HR department wants to determine the names of all employees who were hired after Davies. 
+Create a query to display the name and hire date of any employee hired after employee Davies.
+
+select concat(first_name,' ',last_name) fullname, hire_date from employees where hire_date>(select hire_date from employees where last_name='davies');
 
 24.	The HR department needs to find the names and hire dates of all employees who were hired before their managers, along with their managers’ names and hire dates.
 
+SELECT 
+    CONCAT(e.first_name, ' ', e.last_name) AS "Employee Name",
+    e.hire_date AS "Employee Hire Date",
+    CONCAT(m.first_name, ' ', m.last_name) AS "Manager Name",
+    m.hire_date AS "Manager Hire Date"
+FROM employees e
+JOIN employees m ON e.manager_id = m.employee_id
+WHERE e.hire_date < m.hire_date;
 
  ------------------------------------------------ Using Subqueries to Solve Queries -------------------------
  
-25.	The HR department needs a query the to display  the last name and hire date of any employee in the same department as the employee whose name the user supplies (excluding that employee). For example, if the user enters Zlotkey, find all employees who work with Zlotkey (excluding Zlotkey).
+25.	The HR department needs a query the to display  the last name and hire date of any employee in the same department as the employee whose name the user supplies
+ (excluding that employee). For example, if the user enters Zlotkey, find all employees who work with Zlotkey (excluding Zlotkey).
+
+ select last_name,hire_date,department_id from employees
+ where department_id=(select department_id from employees where last_name='Zlotkey')
+ and last_name<>'Zlotkey';
 
 26. Create a report that displays the employee number, last name, and salary of all employees who earn more than the average salary. Sort the results in ascending order by salary.
 
+select employee_id,last_name,salary from employees where salary>(select avg(salary) from employees) order by salary desc;
+
+
 27.	Write a query that displays the employee number and last name of all employees who work in a department with any employee whose last name contains the letter “u.” 
+
+select employee_id,last_name
 
 28.	The HR department needs a report that displays the last name, department number, and job ID of all employees whose department location ID is 1700.
 
@@ -1083,17 +1139,27 @@ ________________________________________________________________________________
 departments that do not contain the job ID ST_CLERK. 
 Use the set operators to create this report.
 
+select * from departments where department_id not in ( select department_id from )
+
 
 34.	The HR department needs a list of countries that have no departments located in them. Display the country IDs and the names of the countries. 
 Use the set operators to create this report.
 
 
+select * from countries where country_id not in (select country_id from locations where location_id in (select location_id from departments)); 
+
+select c.* from countries c left join locations l on c.country_id=l.country_id left join departments d on l.location_id=d.location_id where d.location_id is null; 
 
 
 35.	Produce a list of all the employees who work in departments 50 and 80. Display the employee ID, job ID, and department ID by using the set operators.
 
+select employee_id,job_id,department_id from employees
+intersect
+(select employee_id,job_id,department_id from employees where department_id in (50,80))
+
 36.	Create a report that lists the detail of all employees who are sales representatives and are currently working in the sales department.
 
+select * from employees where job_id in (select job_id from jobs where job_title='sales representatives' and job_title is not null) and department_id in (select department_id from departments where department_name='sales');
 ----------------------------------------Managing Tables by Using DML Statements-------------------------------------------
 Insert data into the MY_EMPLOYEE table.
 37.	Create a table called MY_EMPLOYEE.
@@ -1134,7 +1200,7 @@ before insert
 on my_employee
 for each row
 begin
-    set new.userid = lower(concat(substr(new.first_name,1,1),substr(new.last_name,2)));
+    set new.userid = lower(concat(substr(new.first_name,1,1),new.last_name));
 end //
 delimiter ;
     
@@ -1167,12 +1233,44 @@ Input: p_job_id IN VARCHAR2
 Output: List of employees with job title and salary.
 Business Logic: The procedure should return the employee ID, first name, last name, and salary for employees with the specified job title.
 
+delimiter //
+drop procedure if exists showJobEmp;
+create procedure showJobEmp(p_job_id varchar(10))
+begin
+    select employee_id,last_name,salary from employees
+    where job_id=p_job_id;
+end //
+delimiter ;
+
 
 5. Promote Employee
 Objective: Create a stored procedure to promote an employee by changing their job title and salary.
 Input: p_employee_id IN NUMBER, p_new_job_id IN VARCHAR2, p_salary_increase IN NUMBER
 Output: Success or failure message.
-Business Logic: The procedure should check if the employee exists, and then update the job_id and salary based on the provided values. Ensure salary increase is not less than a certain percentage (e.g., 10%).
+Business Logic: The procedure should check if the employee exists, and then update the job_id and salary based on the provided values. 
+Ensure salary increase is not less than a certain percentage (e.g., 10%).
+
+delimiter //
+drop procedure if exists updateEmp;
+create procedure updateEmp(in p_employee_id int,in p_new_job_id varchar(10), p_salary_increase decimal(8,2))
+begin
+    declare empId int;
+    declare oldSal decimal(8,2);
+    select employee_id ,salary into empId, oldSal from employees where employee_id=p_employee_id;
+  if ifnull(empId,0)=0
+  then
+    select 'failure no employee with that id';
+  elseif p_salary_increase>oldSal*1.1
+  then
+   update employees
+   set job_id=p_new_job_id,salary=p_salary_increase
+   where employee_id=p_employee_id;
+  else
+   select 'insufficient salary';
+   end if;
+   end //
+   delimiter ;
+
 
 6. Employee Payroll Report
 Objective: Create a stored procedure that generates a payroll report for a specific date range.
