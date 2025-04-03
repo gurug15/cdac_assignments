@@ -1304,6 +1304,17 @@ Output: Turnover rate as a percentage of the total number of employees in that d
 Business Logic: The procedure should calculate the number of employees who left the department within the given date range and divide by the total number of employees in the department during that period.
 
 
+delimiter //
+drop procedure if exists count_e;
+create procedure count_e(in dep int,out val int)
+begin
+    select count(*) into val
+    from employees
+    where department_id=dep;
+end //
+
+delimiter ;
+
 ----------------------------- Function -----------------------
 1. Problem: "The finance department needs to calculate 
 the average salary for each department to 
@@ -1728,6 +1739,12 @@ end //
 delimiter ;
 
 
+select employee_id,last_name,department_id,avg(salary) over(partition by department_id)avgSal,max(salary) over(partition by department_id)maxSal,min(salary) over(partition by job_id)minSal from employees;
+
+
+
+select employee_id,last_name,department_id,avg(salary) over(partition by department_id)avgSal,max(salary) over(partition by department_id)maxSal,
+min(salary) over(partition by email)minSal from employees;
  _________________________________________________________________________________________________________________________________________________________________
 
 
