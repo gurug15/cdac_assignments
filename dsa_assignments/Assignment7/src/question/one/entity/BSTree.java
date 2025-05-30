@@ -108,7 +108,7 @@ public class BSTree {
 				current = current.left;
 			}else {
 				current = current.right;
-			}
+			}	
 		}
 		
 		if(current == null) {
