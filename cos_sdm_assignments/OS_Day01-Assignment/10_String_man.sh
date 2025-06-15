@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+
 read -p "Enter a first String: " F
 read -p "Enter a Second String: " S
 
@@ -27,7 +28,7 @@ compare(){
 }
 
 reverse(){
-	echo "$1" | rev
+	echo "$1"
 }
 
 
