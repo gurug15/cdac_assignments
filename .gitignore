@@ -3,3 +3,66 @@ Assignment.doc
 
 .*
 bin
+
+## Ignore Visual Studio temporary files, build results, and
+## user-specific files
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Mono
+*.mdb
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code settings
+.vscode/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet packages
+*.nupkg
+# The packages folder can be ignored because of package restore
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# NPM packages (for frontend in .NET projects)
+node_modules/
+
+# DotCover
+*.dotCover
+
+# Azure build artifacts
+*.publishsettings
+*.azurePubxml
+
+# Local test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Others
+*.log
+*.vs/
