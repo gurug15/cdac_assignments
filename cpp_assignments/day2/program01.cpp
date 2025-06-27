@@ -2,10 +2,33 @@
 #include<cmath>
 using namespace std;
 
+ class Abc {
+      public:
+       virtual void funca() = 0;
+
+};
+
+class BBc : public Abc{
+      public:
+       void funca(){
+            cout<<"ehllo";
+      }
+};
 
 
 
 
+
+  int main(){
+     
+      Abc* a = new BBc();
+      a->funca();
+
+      delete a;
+  	return 0;
+  }
+
+  
 double QuadraticEquation(int a, int b,int c){
   	
        double x=0,y=0;
@@ -22,12 +45,3 @@ double QuadraticEquation(int a, int b,int c){
        }
   }
 
-
-  int main(){
-        int a,b,c;
-	cout<<"enter a,b,c constants  from quadratic equation: ";
-	cin>>a>>b>>c;
-	cout<<"root of the equation is: "<<QuadraticEquation(a,b,c)<<endl;
-
-  	return 0;
-  }
