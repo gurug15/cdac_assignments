@@ -36,7 +36,7 @@ namespace MynameSpace
 
     abstract class Ikd
     {
-        public virtual int Aab();
+        public abstract int Aab();
     }
 
 
