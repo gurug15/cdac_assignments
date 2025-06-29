@@ -331,4 +331,67 @@ namespace assignmentsSofar.ExceptoinHandling.One
 namespace assignmentsSofar.DelegationExamples
 {
 
+    public delegate int Calc(int x,int y);
+    class DelegateExample
+    {
+        private event Calc calc;
+        static void Main1()
+        {
+            DelegateExample d = new DelegateExample();
+            d.calc = d.add;
+            d.calc += d.sub;
+            d.calc -= d.sub;
+            Console.WriteLine(d.calc!(1, 2));
+        }
+
+        static void Main2()
+        {
+            int i = 100;
+
+            Action o1 = delegate ()
+            {
+                Console.WriteLine("anon method called");
+                //anon methods can access local variables declared in outer code
+                //can also access anon types/classes
+                Console.WriteLine(++i);
+            };
+            Console.WriteLine(i);
+            o1();
+            Func<int, int, int> o2 = delegate (int a, int b)
+            {
+                return a + b;
+            };
+            Console.WriteLine(o2(10, 5));
+        }
+        int add(int x, int y)
+        {
+            return x + y;
+        }
+
+        int sub(int x, int y)
+        {
+            return x - y;
+        }
+    }
+}
+
+
+namespace assignmentsSofar.ActionsLambdaAnon
+{
+    internal class Xyz
+    {
+        static void Main()
+        {
+            Func<int, int> funct = a => a * 10;
+            Console.WriteLine(funct(1));
+
+
+            Predicate<int> IsEven = a => a % 2 == 0;
+
+            Console.WriteLine(IsEven(2));
+
+
+
+        }
+    }
 }
