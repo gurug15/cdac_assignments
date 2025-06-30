@@ -81,13 +81,16 @@ int main()
     // cout<<*arr[0];
 
     // return 0;
-    int x = 10, y = 20;
-    int *ptr = &x;
-    int &ref = y;
+    // int x = 10, y = 20;
+    // int *ptr = &x;
+    // int &ref = y;
 
-    *ptr++;
-     ref++;    
+    // *ptr++;
+    //  ref++;    
+    // Derived *d = new Derived;
+    // cout<< x << " " << y;
+    // return 0;
 
-    cout<< x << " " << y;
-    return 0;
+
+    
 }

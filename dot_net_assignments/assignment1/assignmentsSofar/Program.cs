@@ -209,46 +209,6 @@ namespace assignmentsSofar.OverloadingHidingOverriding
         }
     }
 }
-/*
- 
-Employee
-   EmpNo Name Basic DeptNo
-   CalcNetSalary()
-
-Manager : Employee
-
-
-
-1. Derived class can overload the base class method
-Manager
-   CalcNetSalary(....)  --- same name, diff parameters
-
-Manager m = new Manager();
-m.CalcNetSalary();   ----> Employee
-m.CalcNetSalary(....)  -----> Manager
-
-2. Derived class can hide the base class method
-ANY method can be hidden
-Manager
-   CalcNetSalary()--- same name, same parameters
-
-Manager m = new Manager();
-m.CalcNetSalary();   ----> Manager
-
-3. Derived class can override the base class method
-only a virtual method can be overridden
-
-Employee
-   virtual CalcNetSalary()
-
-Manager
-   override CalcNetSalary()--- same name, same parameters
-
-Manager m = new Manager();
-m.CalcNetSalary();   ----> Manager
-
-
-*/
 
 namespace assignmentsSofar.RefOutInKeyw
 {
@@ -275,7 +235,6 @@ namespace assignmentsSofar.RefOutInKeyw
         }
     }
 }
-
 namespace assignmentsSofar.ExceptoinHandling.One
 {
     class Program
@@ -327,7 +286,6 @@ namespace assignmentsSofar.ExceptoinHandling.One
     }
 
 }
-
 namespace assignmentsSofar.DelegationExamples
 {
 
@@ -374,8 +332,6 @@ namespace assignmentsSofar.DelegationExamples
         }
     }
 }
-
-
 namespace assignmentsSofar.ActionsLambdaAnon
 {
     internal class Xyz
