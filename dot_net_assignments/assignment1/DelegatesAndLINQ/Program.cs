@@ -64,6 +64,7 @@ namespace LinqExample
             lstEmp.Add(new Employee { EmpNo = 3, Name = "Abhijit", Basic = 12000, DeptNo = 20, Gender = "M" });
             lstEmp.Add(new Employee { EmpNo = 4, Name = "Mona", Basic = 11000, DeptNo = 20, Gender = "F" });
             lstEmp.Add(new Employee { EmpNo = 5, Name = "Shweta", Basic = 12000, DeptNo = 20, Gender = "F" });
+            lstEmp.Add(new Employee { EmpNo = 10, Name = "Shweta", Basic = 12000, DeptNo = 20, Gender = "F" });
             lstEmp.Add(new Employee { EmpNo = 6, Name = "Sanjay", Basic = 11000, DeptNo = 30, Gender = "M" });
             lstEmp.Add(new Employee { EmpNo = 7, Name = "Arpan", Basic = 10000, DeptNo = 30, Gender = "M" });
             lstEmp.Add(new Employee { EmpNo = 8, Name = "Shraddha", Basic = 11000, DeptNo = 40, Gender = "F" });
@@ -73,7 +74,22 @@ namespace LinqExample
         {
             AddRecs();
             //var retval = from single_object in collection select one_thing
-            var emps = from emp in lstEmp select emp;
+            //var emps = from emp in lstEmp join dep in lstDept 
+            //           on emp.DeptNo equals dep.DeptNo
+            //           select new { emp.Name,emp.EmpNo};
+
+
+
+            //cartition product
+            //var emps = from emp in lstEmp
+            //           from dept in lstDept
+            //           select new { emp, dept };4
+
+            var emps = from emp in lstEmp
+                       join dep in lstDept
+                       on emp.DeptNo equals dep.DeptNo
+                       orderby emp.Name ascending, emp.EmpNo descending
+                       select new { emp.Name, emp.EmpNo };
             //IEnumerable<Employee> emps = from emp in lstEmp select emp;
 
             foreach (var item in emps)

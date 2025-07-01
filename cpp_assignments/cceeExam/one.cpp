@@ -68,7 +68,7 @@ class Derived : public Base
         else
             cout<< x << " " << y << " " << z << endl; 
     }
-};
+};   
 int main()
 {
     // Derived objDev; 
