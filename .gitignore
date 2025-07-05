@@ -66,3 +66,78 @@ TestResults/
 # Others
 *.log
 *.vs/
+
+## Build output
+bin/
+obj/
+out/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## VS Code
+.vscode/
+
+## Visual Studio files
+.vs/
+*.ncb
+*.log
+*.tlog
+*.pdb
+
+## ASP.NET temporary files
+**/App_Data/
+**/App_Start/
+**/Properties/
+
+## IIS Express
+.vsconfig
+*.iis*
+/.vs/
+
+## Web artifacts
+wwwroot/lib/
+wwwroot/node_modules/
+node_modules/
+
+## Configuration
+appsettings.*.json
+secrets.json
+
+## NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+## Logs
+*.log
+
+## Publish artifacts
+*.publish.xml
+*.pubxml
+publish/
+*.dbmdl
+
+## ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+## Rider
+.idea/
+
+## DotCover
+*.dcvr
+
+## Others
+*.cache
+*.tmp
+*.bak
+
+## OS generated
+.DS_Store
+Thumbs.db
+

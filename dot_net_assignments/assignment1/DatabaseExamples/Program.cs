@@ -11,7 +11,8 @@ namespace DatabaseExamples
         {
 
             //Insert();
-            Select();
+            // Select();
+            UpdateEmployee("guru", 1);
             
         }
 
@@ -74,6 +75,22 @@ namespace DatabaseExamples
             conn.ConnectionString = @"Data Source=(localdb)\ProjectModels;Initial Catalog=ActsJune25;Integrated Security=True";
 
             return conn;
+        }
+
+        static void UpdateEmployee(String name, int empNo)
+        {
+            SqlConnection conn = Connect();
+            conn.Open();
+            SqlCommand sqlCommand = new SqlCommand();
+            sqlCommand.Connection = conn;
+            sqlCommand.CommandType = CommandType.Text;
+            sqlCommand.CommandText = "update Employees set name=@name where empNo=@id";
+            sqlCommand.Parameters.AddWithValue("@name", name);
+            sqlCommand.Parameters.AddWithValue("@id", empNo);
+            sqlCommand.ExecuteNonQuery();
+            Console.WriteLine("Completed the Update");
+
+
         }
     }
 }

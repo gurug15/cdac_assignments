@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+@{
+    string printIt;
+}
+@{
+    try
+    {
+        int ac = ViewBag.A;
+        if (ac % ViewBag.B == 0)
+        {
+            printIt = "wth";
+            @:printIt = $"{ac} is divisible by {ViewBag.B}";
+        }
+        else
+        {
+            printIt = $"{ac} is NOT divisible by {ViewBag.B}";
+        }
+    }catch(Exception ex)
+    {
+        printIt = $"Exception Occured: {ex.Message}";
+    }
+
+}
+
+<h1>@printIt</h1>
+@{
+    int a = ViewBag.A;
+}
+<table border="1">
+    @for(int i =0;i<10;i++)
+    {
+     <tr>
+         <td>@a</td>
+         <td>*</td>
+         <td>@i</td>
+         <td>=</td>   
+         <td>@(a * i)</td>   
+            
+     </tr>   
+    }
+</table>
