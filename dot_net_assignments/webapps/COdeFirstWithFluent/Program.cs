@@ -1,4 +1,7 @@
-namespace WebApplication2
+using COdeFirstWithFluent.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace COdeFirstWithFluent
 {
     public class Program
     {
@@ -8,7 +11,9 @@ namespace WebApplication2
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<EmpDbContext>(options =>
+                        options.UseSqlServer(builder.Configuration.GetConnectionString("EmpDbContext")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -27,7 +32,7 @@ namespace WebApplication2
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Employees}/{action=Index}/{id?}")
+                pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
