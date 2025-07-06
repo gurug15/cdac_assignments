@@ -1,0 +1,32 @@
+
+
+[Bind("","","")]  --> to limit the no of preperties to bind
+ -- the non binded properties must have nullabe ? so that it doesn't give exception/ModelState.valid
+
+______________CREATE____________
+//below both are valid but Employee is faster one
+_context.Add(employee);
+_context.Employee.Add(employee);
+
+
+
+_context.SaveChanges();
+await _context.SaveChangesAsync(); // go make changes in the database -> non blocking
+
+
+_______________EDIT_____________
+//same as create 
+	- _context.Update(emp);
+	-  _context.Employee.Update(emp); --> better option as it doesnt go through every collection
+
+_______________DELETE_____________
+
+	- _context.Remove();
+			or
+	- context.Employee.Remove();
+	-- there are two delete methods one get and one post
+		- get has Delete(int? id) 
+		- post has DeleteConfirmed/*can be whatever but need to add attribute*/(int id);
+			- cant be same name cause cant overload with same name and same signature 
+			- so we use attribute [HttpPost, ActionName("Delete")]
+			- 
