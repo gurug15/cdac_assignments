@@ -83,7 +83,7 @@ namespace LinqExample
             //cartition product
             //var emps = from emp in lstEmp
             //           from dept in lstDept
-            //           select new { emp, dept };4
+            //           select new { emp, dept };
 
             var emps = from emp in lstEmp
                        join dep in lstDept
