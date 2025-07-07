@@ -6,12 +6,12 @@ Microsoft.EntityFrameworkCore.SqlServer
 Microsoft.EntityFrameworkCore.Tools
 
 2. Package Manager Console
- Scaffold-DbContext "Data Source=(localdb)\MsSqlLocalDb;Initial Catalog=IACSDJune25;Integrated Security=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+ Scaffold-DbContext "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Exam;Integrated Security=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 
 Scaffold-DbContext "Data Source=(localdb)\MsSqlLocalDb;Initial Catalog=JkJune25;Integrated Security=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables Employees
 
 
-
+//Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False
 
 
 Note : read more at https://docs.microsoft.com/en-us/ef/core/managing-schemas/scaffolding?tabs=vs
