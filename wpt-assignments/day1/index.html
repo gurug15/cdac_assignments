@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas Demo</title>
+  <style>
+    canvas {
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="600" height="400"></canvas>
+
+<script>
+  const canvas = document.getElementById("myCanvas");
+  const ctx = canvas.getContext("2d");
+
+  // Background
+  ctx.fillStyle = "#87CEEB"; // Sky blue
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Grass
+  ctx.fillStyle = "green";
+  ctx.fillRect(0, 300, canvas.width, 100);
+
+  // House base
+  ctx.fillStyle = "#8B4513"; // Brown
+  ctx.fillRect(200, 200, 200, 100);
+
+  // Roof
+  ctx.beginPath();
+  ctx.moveTo(200, 200);
+  ctx.lineTo(300, 130);
+  ctx.lineTo(400, 200);
+  ctx.closePath();
+  ctx.fillStyle = "#A52A2A";
+  ctx.fill();
+
+  // Door
+  ctx.fillStyle = "#654321";
+  ctx.fillRect(270, 240, 50, 60);
+
+  // Sun
+  ctx.beginPath();
+  ctx.arc(500, 80, 40, 0, 2 * Math.PI); // x, y, radius, start, end
+  ctx.fillStyle = "yellow";
+  ctx.fill();
+
+  // Sun rays using lines
+  for (let i = 0; i < 360; i += 30) {
+    let angle = i * Math.PI / 180;
+    let x1 = 500 + 40 * Math.cos(angle);
+    let y1 = 80 + 40 * Math.sin(angle);
+    let x2 = 500 + 60 * Math.cos(angle);
+    let y2 = 80 + 60 * Math.sin(angle);
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = "orange";
+    ctx.stroke();
+  }
+
+  // Text
+  ctx.font = "20px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText("My Canvas Scene", 10, 30);
+
+  // Outline text
+  ctx.strokeStyle = "blue";
+  ctx.strokeText("Canvas Drawing", 10, 60);
+
+  // Clear part (just to demonstrate clearRect)
+  ctx.clearRect(580, 380, 15, 15); // small cleared square
+</script>
+
+</body>
+</html>

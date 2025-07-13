@@ -1,5 +1,6 @@
 ﻿
     using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
     namespace DelegatesAndLINQ
     {
@@ -85,16 +86,36 @@ namespace LinqExample
             //           from dept in lstDept
             //           select new { emp, dept };
 
-            var emps = from emp in lstEmp
-                       join dep in lstDept
-                       on emp.DeptNo equals dep.DeptNo
-                       orderby emp.Name ascending, emp.EmpNo descending
-                       select new { emp.Name, emp.EmpNo };
-            //IEnumerable<Employee> emps = from emp in lstEmp select emp;
+            //var emps = from emp in lstEmp
+            //           join dep in lstDept
+            //           on emp.DeptNo equals dep.DeptNo
+            //           orderby emp.Name ascending, emp.EmpNo descending
+            //           select new { emp.Name, emp.EmpNo };
+            ////IEnumerable<Employee> emps = from emp in lstEmp select emp;
+
+            //var emps = from emp in lstEmp
+            //           group emp by emp.DeptNo;
+
+
+            //var emps = from emp in lstEmp
+            //           group emp by emp.DeptNo into deptGroup
+            //           select deptGroup.Select(x => new { deptNO = x.DeptNo, name = x.Name });
+
+            var emps =  from emp in lstEmp
+                        group emp by emp.DeptNo into deptGroup
+                        select new
+                        {
+                            DeptNo = deptGroup.Key,
+                            MaxSalary = deptGroup.Max(e => e.Basic),
+                            MinSalary = deptGroup.Min(e => e.Basic)
+                        };
+
 
             foreach (var item in emps)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(item.ToString());
+            //    foreach(var emp in item)
+            //        Console.WriteLine(emp);
             }
 
         }
